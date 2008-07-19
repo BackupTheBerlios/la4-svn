@@ -1,0 +1,176 @@
+TODO
+----
+
+LA4 Project
+
+Last update: 04/23/2005 (jl314)
+
+------------------
+LA4 User Interface
+------------------
+
+Always
+------
+	- Clean up:
+	  * Find/correct memory leaks
+  	* Find/correct all segfaults introduced by correction of memory
+    	leaks  ;+)
+		* Remove all error message (use qDebug() and #undef DEBUG)
+
+	- UI
+		* i18n
+
+0.9.3
+-----
+	- Reengineering of the LAkernel
+		* Implement a real Model/View pattern
+			+ LAkernel
+			+ ViewPlugin
+
+	Status
+	------
+		Work in progress: This step is difficult because the program loses
+		features and you readd them one by one. The CVS will be marked
+		0.9.3 and the first redesign will be commited. A warning should be
+		put in the website.
+
+0.9.3.1
+-------
+	- Change file format
+		* Stencil descriptions: Add
+			+ Line width
+			+ Respect ratio for certain parts of the drawing
+			+ Conditional decos/texts according to parameter values
+		* SaveFile
+			+ Separate view from model (each plugin stores its usefull
+				information)
+				For example: View stores active/inactive/visible/invisible layers
+			+ Layer handling: add a layer section
+
+	- Update platforms according to it
+
+0.9.3.2
+-------
+	- Implement features induces by the file change in 0.9.3.1
+
+	- Correct layer handling
+		* Add/Remove from layer
+
+0.9.3.3
+-------
+	- Print plugin refactoring and polishing
+		* Add connectors
+		* Add document information (no config at all, just add them)
+
+0.9.3.4
+-------
+	- Various features/UI design
+		* Add menu items for zoom
+		* Icons for algo and added objects
+		* Documentation plugin (if possible)
+		* Document information modify dialog
+		* Zoom positionning
+		* Code generation review
+			+ Support for one global file vs. one file per object
+			+ Support for code generator selection or parametrisation
+
+Next milestone: 0.9.4
+---------------------
+
+	- 0.9.3.4 done and no message output.
+
+Should be done next or meanwhile:
+---------------------------------
+	- Clean up all code (comment it (doxygen.error = 0), reorder methods alphabetically, ...)
+			This is not mandatory, but could be cool in fact (jl314)
+	- Color configuration
+	- Font support
+	- LASettings (find a solution for it)
+	- Write a documentation of the program and of LACATRE
+	- Remove all known bugs
+	- Make a binary release for Linux and Windows/Cygwin (waiting for Qt 4...)
+	- Review makefile and configure: use qmake, add lrelease target when
+	building the application.
+
+Future features:
+----------------
+	- Diagram verification and TODO list (e.g. "Semaphore mySem is not created")
+	- Miniview
+	- Antialias on view (Waiting for Qt 4)
+
+Various bugs/features from the previous TODO:
+---------------------------------------------
+
+ - clean this list according to CVS ;-)
+
+ - remove the active factory and return to "select" mode when loading a file
+
+ - a stupid bug caused me to segfault when adding a stencil. (note:
+ulimit -c 65000 to generate core files) I solved the problem by
+commenting out the faulty line in LADocument.h (search for TODO), but
+then the objects would not resize anymore. Un uncommented it later,
+and it works again. Maybe there's a problem there.
+
+ - A "modified since last save" tag, was added, but it is never
+updated whe the document is modified. Do that.
+
+ - Added document title, authors, comments, date to the LADocument.
+Now, display that information on the document itself (useful when
+printing). Make a dialog box to ask for such informations.
+
+ - Bug: According to the specs, a target which does not have the
+appropriate, conform stencils should not be offered to the user. Now,
+a target with no stencils whatsoever is being offered. This was the
+case with the "CVS" target. I added a dirty hack in the dialog window
+to solve that, but its still not satisfactory. Does a plain invalid
+target get loaded? A target w/ no definitions shouldn't either.
+
+ - Add support for paper size?
+
+ - Memory leaks!!! I bet we're almost drowned under memory leaks, if
+only the ones I added myself.
+
+ - Validate the savefile before loading it.
+
+-------------
+LA4 Platforms
+-------------
+
+mCOS-II
+-------
+	- Add microCOS-II platform
+	 * Review all xml files and reorganise them
+	 * Code generation has to be reviewed
+
+vxWorks
+-------
+	- Add objects
+		* Resource
+		* Interrupt
+		* Semaphore (binary, mutex, count)
+
+	- Document all
+
+	- Add description file of the code generator
+
+	- Add parameters for
+		* One global file/one file per task/alaram/interrupt
+
+iRMX
+----
+	- Not maintained at all. If someone is interested in it and has some
+	ideas to submit, send a mail to <la4-dev@lists.berlios.de>
+
+examples/Sample real-time system
+--------------------------------
+	- Think about it and make it a real sample platform
+
+-------
+Website
+-------
+
+	- Update roadmap
+	- Add a real real-time example instead of the dummy one
+	- When the docbook manual will be added to CVS, add the
+	html to the website
+	- Add it to CVS tree

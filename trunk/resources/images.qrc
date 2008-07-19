@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file alias="LogoFuzzy" >LA4_Logo_Fuzzy.png</file>
+    </qresource>
+</RCC>

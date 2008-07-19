@@ -1,0 +1,179 @@
+README
+======
+Last updated: 08/11/2004
+
+
+Welcome to the LA4 project.
+
+LA4 (pronounced as in french, "la-ka-tre") is a GUI tool which allows to
+easily producing Lacatre diagrams, and will eventually include code
+generators for various architectures.
+
+Lacatre is a graphical language that easily allows the conception of
+multi-task applications. It is especially suited for real-time
+application conception.
+
+Lacatre is Free Software and comes with NO WARRANTY. Please refer to
+LICENSE for more information about it.
+
+Please see AUTHORS file for credit.
+
+For internal LA4 structure, consult the documentation in doc/ directory.
+If documentation does not exist, see developper sources for generating
+it.
+
+You found a bug? Please, report it at: 
+
+	http://developer.berlios.de/bugs/?group_id=425
+
+If you have questions about anything concerning the installation,
+compilation, development of LA4, you can try contacting the current
+maintainer for additional information.
+
+
+Building LA4
+============
+
+Lacatre uses the Qt version 3 toolkit.
+
+On Linux, it was tested to build on the following distributions:
+ - Debian GNU/Linux Sarge (i386)
+
+On Windows, it has been tested in conjunction with cygwin and the Qt
+port for cygwin (http://kde-cygwin.sourceforge.net/).
+
+If you encounter problems while configuring LA4 or while compiling LA4,
+please report a bug on the Berlios site:
+
+		http://developer.berlios.de/bugs/?group_id=425
+
+Don't forget to precise your platform, your Qt version...
+
+The code generator plugin needs libxml2 and libxslt. The development
+files are assumed to be in /usr/include/libxml2. Change this in
+LA4.pro according to your configuration if you want to use the
+code generator. If you use Debian GNU/Linux, it should be good with
+lixml2-dev and libxslt-dev packages. Before using the code generator,
+you must create a 'out' directory in your la4 root directory. Note that
+the code of the code generator is alpha and is to be improved in the
+future.
+
+If you don't care about the code generator, for now, it is possible
+to compile the project without it. Just change the lines indicated in
+the LA4.pro and run './configure' and 'make', it should compile without
+the code generation code.
+
+Building instructions under unix:
+---------------------------------
+
+Lacatre requires the Qt development tools. Under debian, make sure you
+have installed the packages libqt3-dev or libqt3-mt-dev and tmake.
+
+If you don't know how to get Qt, you can have more information on the
+Qt official site: http://www.trolltech.com/products/qt/index.html
+
+Depending on how you got the source code, you may need to untar it:
+	% tar -zxvf LA4-<version>.tar.gz
+
+Make sure you have an environment variable pointing to the Qt install path:
+	% export QTDIR=/usr/share/qt3/
+
+Then enter the source directory, and run configure:
+	% ./configure
+
+Run make, you're done!
+	% make
+	% ./la4
+
+Building instructions under Windows:
+------------------------------------
+
+You should have installed first Qt for Windows (either the Trolltech
+version with a license or the cygwin port).
+
+If you are using cygwin, follow the instructions provided for unix
+systems.
+
+For other installation (with a valid license of Qt for example),
+we have not tried it yet, but if you succeed in compiling and running
+LA4 with it, you can submit us your instructions and we will fill
+this README with them.
+
+
+i18n
+----
+
+i18n takes your locale setting (two first letters, i.e.: fr_FR -> fr).
+Before you can use the i18n file you must run lrelease to translate the
+.ts files into .qm files:
+
+% lrelease LA4.pro
+
+
+Developpers resources
+=====================
+
+You are more than welcome to contribute bug reports, comments, feature
+requests and of course, code or patches.
+
+
+Project homepage
+----------------
+
+The LA4 project is hosted on a public SourceForge site at:
+http://developer.berlios.de/projects/la4/
+
+What you will find there:
+ - the project CVS
+ - the bug tracking system
+ - the mailing-list and its archive
+ - project documentation (hopefully)
+
+Thanks to the BerliOS people for providing free hosting and tech support.
+The primary source for LA4 developpers is the project CVS.
+
+
+Source Code Documentation
+-------------------------
+
+The source code has been documented using Doxygen.
+To build the documentation, just type:
+
+% doxygen la4.doxygen
+
+or
+
+% doxygen la4.doxygen.win
+
+It will be built in HTML and RTF formats, and put into the ./doc directory.
+
+
+i18n
+----
+
+i18n has a main directory called i18n. For each language there is
+a directory whose name is just the two first letters given by "locale".
+Two files are needed, la4_XX.ts and qt_XX.ts. The first is
+constructed this way:
+	% lupdate LA4.pro
+	% linguist
+
+Linguist must be installed in order to translate the strings. If not, you can
+do it by hand, but it is a little bit more difficult :+)
+
+Then, to deploy it, just release it from linguist or by:
+	% lrelease LA4.pro
+
+The qt_XX.ts file is needed to translate the rest of the application (open file
+form, ...).
+
+If you want to add a language, you must:
+ - create a new directory in i18n (e.g. "i18n/fr")
+ - add a new entry in the LA4.pro TRANSLATIONS section (e.g. "i18n/fr/la4_fr.ts")
+ - run the above instructions (lupdate and so on)
+ - find a qt_XX.ts file for the new language and copy it into the directory
+   (www.trolltech.com or $QTDIR/translations)
+ - change your locale settings (e.g. "C" -> "fr_FR")
+
+If you just want to test one language without changing your settings, just do:
+	% LANG=fr_FR ; ./la4

@@ -1,0 +1,130 @@
+#!/bin/sh
+
+# Function used to end processing
+function die()
+{
+    echo "configure failed... See the above messages"
+    exit 1
+}
+
+# Checks the QTDIR and trys to find it in some predefined directories
+# If QTDIR is not correctly set, it ends all.
+function testQTDIR()
+{
+
+    if test "${1+set}" = set; then
+				QTDIR=$1
+    fi;
+
+    if [ "$QTDIR" = "" ]; then
+        FINDPATH="/usr/share /usr/local"
+
+				echo 
+				echo "  This program accepts one command line switch, which is the QTDIR to use."
+				echo "  QTDIR is not set. Trying to find qt4 directory in $FINDPATH."
+				echo "  Hit Ctrl-C to abort configure."
+				QTDIR=`find $FINDPATH -name 'qt4' 2>/dev/null`
+
+				if [ "$QTDIR" = "" ]; then
+						echo "-QTDIR:   failed"
+						echo "  Qt directory not found."
+						echo "  Please use \"./configure YOUR_QT_DIR\" to configure correctly LA4."
+						die
+				fi;
+    fi;
+
+    echo "-QTDIR:   ok ($QTDIR)"
+    export QTDIR
+
+}
+
+# Checks for LIBXML2_INC
+# If not found, it is set to ""
+function checkLibXML2()
+{
+    LIBXML2_INC=`find /usr/include . -name 'libxml2' 2>/dev/null`
+    if [ "$LIBXML2_INC" = "" ]; then
+				echo "-libxml2: failed"
+				echo "  Libxml2 headers aren't located in '/usr/include' or '.'."
+				echo "  Did you install the libxml2 developpment package ?"
+				echo ""
+				echo "IMPORTANT: Code generation will be disabled."
+				echo "If you want to enable it, install libxml2 development package"
+				echo "and rerun configure."
+				echo ""
+    else
+				echo "-libxml2: ok ($LIBXML2_INC)"
+    fi
+
+		export LIBXML2_INC
+
+}
+
+function checkLibXSLT()
+{
+    LIBXSLT_INC=`find /usr/include . -name 'libxslt' 2>/dev/null`
+    if [ "$LIBXSLT_INC" = "" ]; then
+				echo "-libxslt: failed"
+				echo "  Libxslt headers aren't located in '/usr/include' or '.'."
+				echo "  Did you install the libxslt developpment package ?"
+				echo ""
+				echo "IMPORTANT: Code generation will be disabled."
+				echo "If you want to enable it, install libxslt development package"
+				echo "and rerun configure."
+				echo ""
+    else
+				echo "-libxslt: ok ($LIBXSLT_INC)"
+    fi
+
+		export LIBXSLT_INC
+
+}
+
+# Beginning of the script
+#########################
+
+echo "LA4: Tool for real-time systems design"
+echo "Copyright (C) 2002-2005 by LA4 team <la4-dev@lists.berlios.de>"
+echo ""
+echo "LA4 configuration script"
+echo "------------------------"
+echo ""
+echo "Checking configuration paths"
+
+# First, check for environment variables we need
+testQTDIR $@
+checkLibXML2
+checkLibXSLT
+
+CONFIG_QMAKE="CONFIG+=codegeneration"
+# If code generation is disabled
+if [ "$LIBXML2_INC" = "" ]; then
+		CONFIG_QMAKE= 
+fi;
+
+if [ "$LIBXSLT_INC" = "" ]; then
+		CONFIG_QMAKE= 
+fi;
+
+# Generate Makefile
+echo ""
+echo "Generating Makefile"
+if [ "$CONFIG_QMAKE" = "" ]; then
+		echo "Code generation is DISABLED."
+else
+		echo "Code generation is enabled."
+fi;
+
+if $QTDIR/bin/qmake LA4.pro $CONFIG_QMAKE; then
+		# If we are here, let's go
+		echo ""
+		echo ""
+		echo "Configured with success. Run 'make' to continue"
+		echo ""
+else
+		echo ""
+		echo ""
+		echo "Ooops, something went wrong. You should perhaps consider the manual procedure."
+		echo "Configure failed."
+		echo ""
+fi;
