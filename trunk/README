@@ -1,6 +1,7 @@
 README
 ======
-Last updated: 08/11/2004
+Last updated: 20/07/2008
+LA4 version: 0.9.2.4
 
 
 Welcome to the LA4 project.
@@ -30,17 +31,15 @@ If you have questions about anything concerning the installation,
 compilation, development of LA4, you can try contacting the current
 maintainer for additional information.
 
-
 Building LA4
 ============
 
-Lacatre uses the Qt version 3 toolkit.
+Lacatre uses the Qt version 4 toolkit.
 
 On Linux, it was tested to build on the following distributions:
- - Debian GNU/Linux Sarge (i386)
+ - Debian GNU/Linux Etch (i386)
 
-On Windows, it has been tested in conjunction with cygwin and the Qt
-port for cygwin (http://kde-cygwin.sourceforge.net/).
+On Windows, no tests have been done at all with the current version.
 
 If you encounter problems while configuring LA4 or while compiling LA4,
 please report a bug on the Berlios site:
@@ -67,7 +66,7 @@ Building instructions under unix:
 ---------------------------------
 
 Lacatre requires the Qt development tools. Under debian, make sure you
-have installed the packages libqt3-dev or libqt3-mt-dev and tmake.
+have installed the packages libqt4-dev or libqt4-mt-dev and qmake.
 
 If you don't know how to get Qt, you can have more information on the
 Qt official site: http://www.trolltech.com/products/qt/index.html
@@ -76,7 +75,7 @@ Depending on how you got the source code, you may need to untar it:
 	% tar -zxvf LA4-<version>.tar.gz
 
 Make sure you have an environment variable pointing to the Qt install path:
-	% export QTDIR=/usr/share/qt3/
+	% export QTDIR=/usr/share/qt4/
 
 Then enter the source directory, and run configure:
 	% ./configure

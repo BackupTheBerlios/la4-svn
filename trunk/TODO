@@ -1,6 +1,12 @@
 TODO
 ----
 
+- Load platforms according to setting path
+- Add minimum width, height (+ LAMetaObject class)
+
+Old
+---
+
 LA4 Project
 
 Last update: 04/23/2005 (jl314)

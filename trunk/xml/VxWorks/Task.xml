@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LA4 VxWorks platform - Task definition                                 -->
+<!--                                                       Object ID is 101 -->
+<!--                                                                        -->
+<!-- This file is part of the LA4 project:                                  -->
+<!--   http://la4.berlios.de                                                -->
+<!-- ______________________________________________________________________ -->
+<!--                                                                        -->
+<!-- This program is free software; you can redistribute it and/or modify   -->
+<!-- it under the terms of the GNU General Public License as published by   -->
+<!-- the Free Software Foundation; either version 2 of the License, or      -->
+<!-- (at your option) any later version.                                    -->
+<!--                                                                        -->
+<!-- This program is distributed in the hope that it will be useful,        -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of         -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          -->
+<!-- GNU General Public License for more details.                           -->
+<!--                                                                        -->
+<!-- You should have received a copy of the GNU General Public License      -->
+<!-- along with this program; if not, write to the                          -->
+<!-- Free Software Foundation, Inc.,                                        -->
+<!-- 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.               -->
+<!-- ______________________________________________________________________ -->
+<!--                                                                        -->
+<!-- Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>         -->
+
+<LAExecutionObject defaultWidth="40" defaultHeight="100" typeID="101">
+
+	<!-- User documentation -->
+	<!-- __________________ -->
+
+	<!-- English -->
+
+	<!-- French -->
+
+	<!-- Texts and icon -->
+	<!-- ______________ -->
+
+	<!-- Parameters -->
+	<!-- __________ -->
+
+	<!-- Task name -->
+
+	<!-- Task priority -->
+
+	<!-- VxWorks option -->
+
+	<!-- Stack size -->
+
+	<!-- Actions -->
+	<!-- _______ -->
+
+	<!-- Task create -->
+
+	<!-- Task delete -->
+
+	<!-- Task delay -->
+
+	<!-- Task suspend -->
+
+	<!-- Task resume -->
+
+	<!-- Change priority of task -->
+
+	<!-- Drawing -->
+	<!-- _______ -->
+
+	<!-- Surrounding ellipse, shape ID is 101101 -->
+	<!-- Supported actions: task-create, task-delete, task-suspend, task-resume, task-delay, task-change-priority -->
+
+	<!-- Middle vertical line, shape ID is 101102 -->
+	<!-- Execution shape -->
+
+</LAExecutionObject>

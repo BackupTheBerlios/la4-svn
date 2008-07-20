@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LA4 VxWorks platform - Binary semaphore definition                     -->
+<!--                                                       Object ID is 106 -->
+<!--                                                                        -->
+<!-- This file is part of the LA4 project:                                  -->
+<!--   http://la4.berlios.de                                                -->
+<!-- ______________________________________________________________________ -->
+<!--                                                                        -->
+<!-- This program is free software; you can redistribute it and/or modify   -->
+<!-- it under the terms of the GNU General Public License as published by   -->
+<!-- the Free Software Foundation; either version 2 of the License, or      -->
+<!-- (at your option) any later version.                                    -->
+<!--                                                                        -->
+<!-- This program is distributed in the hope that it will be useful,        -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of         -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          -->
+<!-- GNU General Public License for more details.                           -->
+<!--                                                                        -->
+<!-- You should have received a copy of the GNU General Public License      -->
+<!-- along with this program; if not, write to the                          -->
+<!-- Free Software Foundation, Inc.,                                        -->
+<!-- 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.               -->
+<!-- ______________________________________________________________________ -->
+<!--                                                                        -->
+<!-- Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>         -->
+
+<LAConfigurableObject defaultWidth="30" defaultHeight="30" typeID="106">
+
+	<!-- User documentation -->
+	<!-- __________________ -->
+
+	<!-- English -->
+
+	<!-- French -->
+
+	<!-- Texts and icon -->
+	<!-- ______________ -->
+
+	<!-- Parameters -->
+	<!-- __________ -->
+
+	<!-- Semaphore name -->
+
+	<!-- Semaphore mode -->
+
+	<!-- Initial value -->
+
+	<!-- Actions -->
+	<!-- _______ -->
+
+	<!-- Binary semaphore create -->
+
+	<!-- Binary semaphore delete -->
+
+	<!-- Binary semaphore take -->
+
+	<!-- Binary semaphore release -->
+
+	<!-- Drawing -->
+	<!-- _______ -->
+
+	<!-- Upper horizontal action bar, shape ID is 106101 -->
+	<!-- Supported actions: semB-give -->
+
+	<!-- Lower horizontal action bar, shape ID is 106102 -->
+	<!-- Supported actions: semB-take -->
+
+	<!-- Left vertical status bar, shape ID is 106103 -->
+	<!-- Supported actions: semB-create, semB-delete -->
+
+	<!-- Right vertical status bar, shape ID is 106103 -->
+	<!-- Supported actions: semB-create, semB-delete -->
+
+	<!-- Shape decos -->
+
+</LAConfigurableObject>

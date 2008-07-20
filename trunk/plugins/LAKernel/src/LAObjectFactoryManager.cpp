@@ -25,12 +25,17 @@
 #include "LAObjectFactoryManager.h"
 
 /* Qt includes */
+#include <QDir>
+#include <QtDebug>
 
 /* LA4 includes */
 #include "LAObjectFactory.h"
 
 /* Debugging levels */
-#undef DEBUG
+#define DEBUG
+
+/* Constants */
+const QString LAObjectFactoryManager::LAOBJECT_EXTENSION_FILTER = "*.xml";
 
 /************************************************** Constructors/Destructor */
 LAObjectFactoryManager::LAObjectFactoryManager(const QString& aFactoriesDirectory):
@@ -57,55 +62,64 @@ LAObjectFactoryManager::LAFactoryList* LAObjectFactoryManager::GetFactories()
 
 int LAObjectFactoryManager::Load()
 {
-    /* Returned value */
-    int numberOfFactories = 0;
-
-// 	QDir factDir(dir);
-// 	QString fullPath;
-
-// 	LAObjectFactory * aFactory;
-
-// 	if (!(factDir.exists()))
-// 		{
-// 			qWarning("LAObjectFactoryManager: Failed to load %s", dir.latin1());
-// 			return -1;
-// 		}
-
-// 	/*! \todo Put filter in preferences ?? */
-// 	factDir.setNameFilter("*.xml");
-
-// 	if(!factDir.entryList().count())
-// 		{
-// 			qWarning("LAObjectFactoryManager: Nothing to load from %s\n", dir.latin1());
-// 			return -1;
-// 		}
-
-// 	QStringList list = factDir.entryList();
-
-// 	/* For all files, load the factory */
-// 	for (QStringList::Iterator it = list.begin() ; it != list.end() ; ++it )
-// 		{
-
-// #ifdef DEBUG
-// 			qDebug("LAObjectFactoryManager: Processing %s", (*it).latin1());
-// #endif /* DEBUG */
-
-// 			aFactory = new LAObjectFactory(this);
-// 			/* \todo Test not clear here!!! */
-// 			if (aFactory->LoadDescription(dir, (*it)))
-// 				{
-// 					delete aFactory;
-// 					aFactory = NULL;
-// 				}
-// 			else
-// 				{
-// 					factories.append(aFactory);
-// 					numFact++;
-// 				}
-// 		}
+  /* Returned value */
+  int numberOfFactories = 0;
 
 #ifdef DEBUG
-    qDebug("LAObjectFactoryManager: %d factories read from %s", numFact, m_dir.latin1());
+  qDebug() << "LAObjectFactoryManager::Load: Path =" << m_dir;
+#endif /* DEBUG */
+
+  QDir             factoriesDirectory(m_dir);
+  QString          fullPath = "";
+ 	LAObjectFactory* factory  = NULL;
+
+  if (!(factoriesDirectory.exists()))
+    {
+      qWarning() << "LAObjectFactoryManager::Load: Failed to load factories from" << m_dir << "- Directory does not exist";
+      numberOfFactories = -1;
+    }
+
+  /*! Filter files */
+  factoriesDirectory.setNameFilters(QStringList(LAOBJECT_EXTENSION_FILTER));
+  QStringList factoriesList = factoriesDirectory.entryList();
+
+	if (-1 != numberOfFactories &&
+       0 >= factoriesList.count())
+		{
+			qWarning() << "LAObjectFactoryManager::Load: No definition to load from" << m_dir;
+			numberOfFactories = -1;
+		}
+  else
+    {
+
+      /* For all files, load the factory */
+      for (QStringList::Iterator factoryFilename = factoriesList.begin(); factoriesList.end() != factoryFilename; factoryFilename++)
+        {
+
+#ifdef DEBUG
+          qDebug() << "LAObjectFactoryManager::Load: Processing" << *factoryFilename;
+#endif /* DEBUG */
+
+          factory = new LAObjectFactory(this);
+          /* Load factory */
+          if (-1 == factory->LoadDescription(m_dir, (*factoryFilename)))
+            {
+              delete factory;
+              factory = NULL;
+            }
+          else
+            {
+              /* If factory is successfully loaded, add it to list */
+              m_factories.append(factory);
+              numberOfFactories++;
+            }
+
+        }
+
+    }
+
+#ifdef DEBUG
+    qDebug() << "LAObjectFactoryManager::Load:" << numberOfFactories << "factories read from" << m_dir;
 #endif /* DEBUG */
 
     return numberOfFactories;

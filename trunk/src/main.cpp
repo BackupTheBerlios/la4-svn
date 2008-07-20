@@ -28,6 +28,7 @@
 #include <QTranslator>
 
 /* LA4 includes */
+#include "LAObjectFactoryManager.h"
 #include "LASettings.h"
 #include "LAWindow.h"
 
@@ -37,52 +38,59 @@
 int main(int argc, char *argv[])
 {
 
-	QApplication app(argc, argv);
+  QApplication app(argc, argv);
 
-	/* i18n handling */
-	QLocale currentLocale;
-	QString language = currentLocale.name();
-	language.truncate(2); /* Keep only the two first letters */
+  /* i18n handling */
+  QLocale currentLocale;
+  QString language = currentLocale.name();
+  language.truncate(2); /* Keep only the two first letters */
 
 #ifdef DEBUG
-	qDebug("main(): Language is " + language);
+  qDebug("main(): Language is " + language);
 #endif /* DEBUG */
 	
-	/* Translation file for Qt */
-	QTranslator qt(0);
-	if (qt.load(QString("i18n/") + language + QString("/qt_") + language, "."))
-		{
-			app.installTranslator(&qt);
-		}
-	else
-		{
+  /* Translation file for Qt */
+  QTranslator qt(0);
+  if (qt.load(QString("i18n/") + language + QString("/qt_") + language, "."))
+    {
+      app.installTranslator(&qt);
+    }
+  else
+    {
 #ifdef DEBUG
-			qDebug("main(): File for qt strings in language " + language + " not found.");
+      qDebug("main(): File for qt strings in language " + language + " not found.");
 #endif /* DEBUG */
-		}
+    }
 
-	/* Translation file for la4 strings */
-	QTranslator la4app(0);  
-	if (la4app.load(QString("i18n/") + language + QString("/la4_") + language, "."))
-		{
-			app.installTranslator(&la4app);
-		}
-	else
-		{
+  /* Translation file for la4 strings */
+  QTranslator la4app(0);  
+  if (la4app.load(QString("i18n/") + language + QString("/la4_") + language, "."))
+    {
+      app.installTranslator(&la4app);
+    }
+  else
+    {
 #ifdef DEBUG
-			qDebug("main(): File for la4 strings in language" + language + " not found, you should perhaps rerun lrelease.");
+      qDebug("main(): File for la4 strings in language" + language + " not found, you should perhaps rerun lrelease.");
 #endif /* DEBUG */
-		}
+        }
 
-	/* Create window */
-    LAWindow mainWindow;
+  /* Create window */
+  LAWindow mainWindow;
 
-	/* Configure the application */
-	mainWindow.connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), &mainWindow, SLOT(ResetPreferences()));
-	LA4_Global_Settings.ConfigureApplication();
+  /* Configure the application */
+  mainWindow.connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), &mainWindow, SLOT(ResetPreferences()));
+  LA4_Global_Settings.ConfigureApplication();
 
-    mainWindow.show();
-    app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-    return app.exec();
+  mainWindow.show();
+  app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
+
+  /* TOREMOVE: Test of factory manager */
+  LAObjectFactoryManager aManager("xml/VxWorks");
+  aManager.Load();
+  /* TOREMOVE:Test of factory manager */
+
+  /* Execute the application */
+  return app.exec();
 
 }

@@ -1,0 +1,19 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:group name="LAObject">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:attribute name="typeID"        type="xsd:int"   use="required" />
+				<xsd:attribute name="defaultHeight" type="xsd:float" use="required" />
+				<xsd:attribute name="defaultWidth"  type="xsd:float" use="required" />
+			</xsd:sequence>
+		</xsd:complexType>
+    <xsd:choice>					
+      <xsd:element ref="LAExecutionObject" />
+    </xsd:choice>
+	</xsd:group>
+
+	<xsd:element name="LAExecutionObject">
+	</xsd:element>
+
+</xsd:schema>

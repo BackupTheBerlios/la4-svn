@@ -42,38 +42,38 @@ class LAObjectFactoryManager: public QObject
 
   Q_OBJECT
 
-	/************************************************************* Public types */
+  /************************************************************* Public types */
 public:
   /*!
-	 * Type Definition for the list of all factories in this zone.
+   * Type Definition for the list of all factories in this zone.
    */
   typedef QList<LAObjectFactory*> LAFactoryList;
 
-	/************************************************** Constructors/Destructor */
+  /************************************************** Constructors/Destructor */
 public:
-	/*!
-	 * Default contructor of LAObjectFactoryManager.
-	 *
-	 * The use of this constructor is forbidden. No implementation is in consequence provided.
-	 */
+  /*!
+   * Default contructor of LAObjectFactoryManager.
+   *
+   * The use of this constructor is forbidden. No implementation is in consequence provided.
+   */
   LAObjectFactoryManager();
 
   /*!
-	 * Constructor of LAObjectFactoryManager.
-	 *
+   * Constructor of LAObjectFactoryManager.
+   *
    * @param aFactoriesDirectory Directory with descriptions of all factories.
    */
   LAObjectFactoryManager(const QString & aFactoriesDirectory);
 
   /*!
-	 * Destructor of LAObjectFactoryManager.
+   * Destructor of LAObjectFactoryManager.
    */
   virtual ~LAObjectFactoryManager();
 
-	/*********************************************************** Public methods */
+  /*********************************************************** Public methods */
 public:
   /*!
-	 * Returns the list of factories.
+   * Returns the list of factories.
    */
   LAFactoryList * GetFactories();
 
@@ -82,16 +82,21 @@ public:
    */
   int Load();
 
-	/******************************************************** Protected members */
+  /******************************************************** Protected members */
 protected:
-	/*! Directory of the zone */
+  /*! Directory of the zone */
   QString            m_dir;
 
-	/*! List of the factories of the factory manager */
+  /*! List of the factories of the factory manager */
   LAFactoryList      m_factories;
 
-	/*! ID of the factory manager */
+  /*! ID of the factory manager */
   QString            m_factoryID;
+
+  /********************************************************** Private members */
+private:
+  /*! Default */
+  static const QString LAOBJECT_EXTENSION_FILTER;
 
 };
 

@@ -25,19 +25,27 @@
 #include "LAObject.h"
 
 /* Qt includes */
+#include <QtDebug>
 
 /* LA4 includes */
 
 /* Debugging levels */
 #undef DEBUG
-#undef XML_DEBUG
+#define XML_DEBUG
+
+/* XML constants */
+const QString LAObject::XML_DEFAULT_HEIGHT_ATTRIBUTE = "defaultHeight";
+const QString LAObject::XML_DEFAULT_WIDTH_ATTRIBUTE  = "defaultWidth";
+const QString LAObject::XML_TYPE_ID_ATTRIBUTE        = "typeID";
 
 /************************************************** Constructors/Destructor */
 /* Note: this constructor is protected */
 LAObject::LAObject():
-    QObject(),
-    m_height(0),
-    m_width(0),
+    QObject      (),
+    m_height     (0),
+    m_objectID   (0),
+    m_typeID     (0),
+    m_width      (0),
     m_xCoordinate(0),
     m_yCoordinate(0)
 {
@@ -56,6 +64,7 @@ LAObject::LAObject(const LAObject & s):
     /*! \todo Object ID is set to 0 when copying. */
     m_objectID    = 0;
     m_height      = s.m_height;
+    m_typeID      = s.m_typeID;
     m_width       = s.m_width;
     m_xCoordinate = s.m_xCoordinate;
     m_yCoordinate = s.m_yCoordinate;
@@ -76,5 +85,55 @@ LAObject::~LAObject()
 }
 
 /*********************************************************** Public methods */
+LAObject* LAObject::Clone(double x, double y, double w, double h)
+{
+  (void)x;
+  (void)y;
+  (void)w;
+  (void)h;
+
+  qDebug() << "LAObject::Clone: NOT IMPLEMENTED";
+
+  return NULL;
+}
+
+int LAObject::LoadDescription(QDomNode& aNode)
+{
+
+  /* Returned value */
+  int success = 0;
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription:Begin";
+#endif /* XML_DEBUG */
+
+	/* Convert node to element and work with that element */
+	QDomElement element = aNode.toElement();
+
+	/* ID is set to 0!!! */
+	m_objectID = 0;
+
+  /* Get type ID */
+ 	m_typeID  = element.attribute(XML_TYPE_ID_ATTRIBUTE, "-1").toInt();
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription: Type ID        =" << m_typeID;
+#endif /* XML_DEBUG */
+
+  /* Set width and height according to default values */
+	m_height = element.attribute(XML_DEFAULT_HEIGHT_ATTRIBUTE, "0").toFloat();
+	m_width  = element.attribute(XML_DEFAULT_WIDTH_ATTRIBUTE, "0").toFloat();
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription: Default height =" << m_height;
+  qDebug() << "LAObject::LoadDescription: Default width  =" << m_width;
+#endif /* XML_DEBUG */
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription:End";
+#endif /* XML_DEBUG */
+
+  return success;
+}
 
 /******************************************************** Protected methods */

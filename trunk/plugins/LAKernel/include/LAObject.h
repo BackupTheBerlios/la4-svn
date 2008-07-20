@@ -26,11 +26,13 @@
 #define _LAOBJECT_H_
 
 /* Qt includes */
+#include <QDomNode>
 #include <QObject>
 
 /* LA4 includes */
 
 /* Forward declarations */
+class LAObjectFactory;
 
 /*!
  * This class is used to represent all Lacatre objects except connectors
@@ -39,6 +41,9 @@ class LAObject : public QObject
 {
 
 	Q_OBJECT
+  /****************************************************** Frient declarations */
+public:
+  friend class LAObjectFactory;
 
 	/************************************************** Constructors/Destructor */
 public:
@@ -56,21 +61,39 @@ public:
 	/*!
 	 * Creates a copy of the object itself and return a pointer on the new object
 	 *
-	 * \param x X-coordinate of the new object
-	 * \param y Y-coordinate of the new object
-	 * \param w Width of the new object. If -1, it is created with the default width
-	 * \param h Height of the new object. If -1, it is created with the default height
+	 * @param x X-coordinate of the new object
+	 * @param y Y-coordinate of the new object
+	 * @param w Width of the new object. If -1, it is created with the default width
+	 * @param h Height of the new object. If -1, it is created with the default height
 	 *
-	 * \retval pointer Pointer on the created object
+	 * @retval pointer Pointer on the created object
 	 */
-	virtual LAObject * Clone(double x, double y, double w = -1, double h = -1) = 0;
+	virtual LAObject* Clone(double x, double y, double w = -1, double h = -1);
 
 	/*!
 	 * Indicates the object ID
 	 *
-	 * \retval objectID The ID of the object
+	 * @retval objectID The ID of the object
 	 */
 	int getObjectID() { return m_objectID; };
+
+	/*!
+	 * Indicates the type ID of the object
+	 *
+	 * @retval typeID The type ID of the object
+	 */
+	int getTypeID() { return m_typeID; };
+
+  /*!
+   * Loads information about the object from the given XML node
+   *
+   * This method always return 0.
+   *
+   * @param aNode Node containing the information to load
+   *
+   * @retval 0 Normal execution
+   */
+  virtual int LoadDescription(QDomNode& aNode);
 
 	/******************************************************** Protected methods */
 protected:
@@ -84,9 +107,9 @@ protected:
 	 *
 	 * Use Clone() method instead.
 	 *
-	 * \param object Object to copy.
+	 * @param object Object to copy.
 	 */
-	LAObject(const LAObject & object);
+	LAObject(const LAObject& object);
 
 	/******************************************************** Protected members */
 protected:
@@ -96,6 +119,9 @@ protected:
 	/*! ID of the object */
 	int m_objectID;
 
+  /*! Type ID of the object */
+  int m_typeID;
+
 	/*! Width of the object */
 	double m_width;
 
@@ -104,6 +130,13 @@ protected:
 
 	/*! Y coordinate of the object */
 	double m_yCoordinate;
+
+	/******************************************************** Private constants */
+private:
+  /* Attribute names */
+  static const QString XML_DEFAULT_HEIGHT_ATTRIBUTE;
+  static const QString XML_DEFAULT_WIDTH_ATTRIBUTE;
+  static const QString XML_TYPE_ID_ATTRIBUTE;
 
 };
 
