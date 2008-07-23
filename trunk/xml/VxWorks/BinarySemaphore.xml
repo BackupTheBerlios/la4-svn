@@ -24,7 +24,7 @@
 <!--                                                                        -->
 <!-- Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>         -->
 
-<LAConfigurableObject defaultWidth="30" defaultHeight="30" typeID="106">
+<LAConfigurableObject defaultWidth="30" defaultHeight="30" minimumWidth="30" minimumHeight="30" typeID="106">
 
 	<!-- User documentation -->
 	<!-- __________________ -->

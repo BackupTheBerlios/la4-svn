@@ -60,9 +60,11 @@ SOURCES += \
     src/lacatre/LACATRE_Doc.cpp \
     plugins/src/LoadFilePlugin.cpp \
     plugins/LAKernel/src/LACommand.cpp \
+    plugins/LAKernel/src/LAMetaObject.cpp \
     plugins/LAKernel/src/LAObject.cpp \
     plugins/LAKernel/src/LAObjectFactory.cpp \
-    plugins/LAKernel/src/LAObjectFactoryManager.cpp \
+    plugins/LAKernel/src/LAPlatform.cpp \
+    plugins/LAKernel/src/LAPlatformManager.cpp \
     src/LAPreferencesDialog.cpp \
     src/LASettings.cpp \
     src/LA4Namespace.cpp \
@@ -75,9 +77,11 @@ HEADERS = include/lacatre/LACATRE_PluginPool.h \
     include/lacatre/LACATRE_Doc.h \
     plugins/include/LoadFilePlugin.h \
     plugins/LAKernel/include/LACommand.h \
+    plugins/LAKernel/include/LAMetaObject.h \
     plugins/LAKernel/include/LAObject.h \
     plugins/LAKernel/include/LAObjectFactory.h \
-    plugins/LAKernel/include/LAObjectFactoryManager.h \
+    plugins/LAKernel/include/LAPlatform.h \
+    plugins/LAKernel/include/LAPlatformManager.h \
     include/LAPreferencesDialog.h \
     include/LASettings.h \
     include/LA4Namespace.h \

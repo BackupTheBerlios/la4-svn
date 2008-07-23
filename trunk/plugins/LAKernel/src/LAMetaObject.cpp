@@ -1,5 +1,5 @@
 /******************************************************************************
- * main.cpp                                                                   *
+ * LAMetaObject.cpp                                                           *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -19,77 +19,71 @@
  *                                                                            *
  ******************************************************************************
  * LA4: Tool for real-time systems design                                     *
- * Copyright (C) 2002-2007 by LA4 team <la4-dev@lists.berlios.de>             *
+ * Copyright (C) 2002-2006 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
+#include "LAMetaObject.h"
+
 /* Qt includes */
-#include <QApplication>
-#include <QtGui>
-#include <QTranslator>
+#include <QtDebug>
 
 /* LA4 includes */
-#include "LAPlatformManager.h"
-#include "LASettings.h"
-#include "LAWindow.h"
 
 /* Debugging levels */
 #undef DEBUG
+#define XML_DEBUG
 
-int main(int argc, char *argv[])
+/* XML constants */
+const QString LAMetaObject::XML_MINIMUM_HEIGHT_ATTRIBUTE = "minimumHeight";
+const QString LAMetaObject::XML_MINIMUM_WIDTH_ATTRIBUTE  = "minimumWidth";
+
+/************************************************** Constructors/Destructor */
+/* Note: this constructor is protected */
+LAMetaObject::LAMetaObject(QDomNode& aNode)
 {
 
-  QApplication app(argc, argv);
+#ifdef XML_DEBUG
+  qDebug() << "LAMetaObject::LAMetaObject:Begin";
+#endif /* XML_DEBUG */
 
-  /* i18n handling */
-  QLocale currentLocale;
-  QString language = currentLocale.name();
-  language.truncate(2); /* Keep only the two first letters */
+	/* Convert node to element and work with that element */
+	QDomElement element = aNode.toElement();
+
+  /* Set width and height according to default values */
+	m_minimumHeight = element.attribute(XML_MINIMUM_HEIGHT_ATTRIBUTE, "0").toFloat();
+	m_minimumWidth  = element.attribute(XML_MINIMUM_WIDTH_ATTRIBUTE, "0").toFloat();
+
+#ifdef XML_DEBUG
+  qDebug() << "LAMetaObject::LAMetaObject: Minimum height =" << m_minimumHeight;
+  qDebug() << "LAMetaObject::LAMetaObject: Minimum width  =" << m_minimumWidth;
+#endif /* XML_DEBUG */
+
+#ifdef XML_DEBUG
+  qDebug() << "LAMetaObject::LAMetaObject:End";
+#endif /* XML_DEBUG */
 
 #ifdef DEBUG
-  qDebug("main(): Language is " + language);
+    qDebug("LAMetaObject: %p constructed.", this);
 #endif /* DEBUG */
+
+}
+
+LAMetaObject::~LAMetaObject()
+{
 	
-  /* Translation file for Qt */
-  QTranslator qt(0);
-  if (qt.load(QString("i18n/") + language + QString("/qt_") + language, "."))
-    {
-      app.installTranslator(&qt);
-    }
-  else
-    {
 #ifdef DEBUG
-      qDebug("main(): File for qt strings in language " + language + " not found.");
+	qDebug("LAObject: %p deleted.", this);
 #endif /* DEBUG */
-    }
 
-  /* Translation file for la4 strings */
-  QTranslator la4app(0);  
-  if (la4app.load(QString("i18n/") + language + QString("/la4_") + language, "."))
-    {
-      app.installTranslator(&la4app);
-    }
-  else
-    {
-#ifdef DEBUG
-      qDebug("main(): File for la4 strings in language" + language + " not found, you should perhaps rerun lrelease.");
-#endif /* DEBUG */
-        }
+}
 
-  /* Create window */
-  LAWindow mainWindow;
+/******************************************************** Protected methods */
+double LAMetaObject::getMinimumHeight() const
+{
+  return m_minimumHeight;
+}
 
-  /* Configure the application */
-  mainWindow.connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), &mainWindow, SLOT(ResetPreferences()));
-  LA4_Global_Settings.ConfigureApplication();
-
-  mainWindow.show();
-  app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
-
-  /* TOREMOVE: Test of platform manager */
-  LAPlatformManager::Load();
-  /* TOREMOVE:Test of platform manager */
-
-  /* Execute the application */
-  return app.exec();
-
+double LAMetaObject::getMinimumWidth() const
+{
+  return m_minimumWidth;
 }

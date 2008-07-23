@@ -28,6 +28,7 @@
 #include <QtDebug>
 
 /* LA4 includes */
+#include "LAMetaObject.h"
 
 /* Debugging levels */
 #undef DEBUG
@@ -68,6 +69,8 @@ LAObject::LAObject(const LAObject & s):
     m_width       = s.m_width;
     m_xCoordinate = s.m_xCoordinate;
     m_yCoordinate = s.m_yCoordinate;
+    /* Meta object are shared by all objects */
+    m_metaObject  = s.m_metaObject;
 
 #ifdef DEBUG
 	qDebug("LAObject: %p constructed from a copy %p.", this, &s);
@@ -127,6 +130,17 @@ int LAObject::LoadDescription(QDomNode& aNode)
 #ifdef XML_DEBUG
   qDebug() << "LAObject::LoadDescription: Default height =" << m_height;
   qDebug() << "LAObject::LoadDescription: Default width  =" << m_width;
+#endif /* XML_DEBUG */
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription:Creating meta object";
+#endif /* XML_DEBUG */
+
+  /* Create meta-object */
+  m_metaObject = new LAMetaObject(aNode);
+
+#ifdef XML_DEBUG
+  qDebug() << "LAObject::LoadDescription:End of creation of meta object";
 #endif /* XML_DEBUG */
 
 #ifdef XML_DEBUG

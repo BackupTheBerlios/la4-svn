@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAObjectFactoryManager.cpp                                                 *
+ * LAPlatform.cpp                                                             *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -22,7 +22,7 @@
  * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#include "LAObjectFactoryManager.h"
+#include "LAPlatform.h"
 
 /* Qt includes */
 #include <QDir>
@@ -35,18 +35,19 @@
 #define DEBUG
 
 /* Constants */
-const QString LAObjectFactoryManager::LAOBJECT_EXTENSION_FILTER = "*.xml";
+const QString LAPlatform::LAOBJECT_EXTENSION_FILTER = "*.xml";
 
 /************************************************** Constructors/Destructor */
-LAObjectFactoryManager::LAObjectFactoryManager(const QString& aFactoriesDirectory):
-    m_dir(aFactoriesDirectory)
+LAPlatform::LAPlatform(const QString& aFactoriesDirectory):
+  m_dir       (aFactoriesDirectory),
+  m_platformID("")
 {
     /* All factories of the zone are destroyed with the zone */
 }
 
-LAObjectFactoryManager::~LAObjectFactoryManager()
+LAPlatform::~LAPlatform()
 {
-    /* Factories are owned by the manager that must destroy them */
+    /* Factories are owned by the platform that must destroy them */
     LAObjectFactory* aFactoryPtr;
     foreach (aFactoryPtr, m_factories)
         {
@@ -55,18 +56,18 @@ LAObjectFactoryManager::~LAObjectFactoryManager()
 }
 
 /*********************************************************** Public methods */
-LAObjectFactoryManager::LAFactoryList* LAObjectFactoryManager::GetFactories()
+LAPlatform::LAFactoryList* LAPlatform::GetFactories()
 {
 	return &m_factories;
 }
 
-int LAObjectFactoryManager::Load()
+int LAPlatform::Load()
 {
   /* Returned value */
   int numberOfFactories = 0;
 
 #ifdef DEBUG
-  qDebug() << "LAObjectFactoryManager::Load: Path =" << m_dir;
+  qDebug() << "LAPlatform::Load: Path =" << m_dir;
 #endif /* DEBUG */
 
   QDir             factoriesDirectory(m_dir);
@@ -75,7 +76,7 @@ int LAObjectFactoryManager::Load()
 
   if (!(factoriesDirectory.exists()))
     {
-      qWarning() << "LAObjectFactoryManager::Load: Failed to load factories from" << m_dir << "- Directory does not exist";
+      qWarning() << "LAPlatform::Load: Failed to load factories from" << m_dir << "- Directory does not exist";
       numberOfFactories = -1;
     }
 
@@ -86,7 +87,7 @@ int LAObjectFactoryManager::Load()
 	if (-1 != numberOfFactories &&
        0 >= factoriesList.count())
 		{
-			qWarning() << "LAObjectFactoryManager::Load: No definition to load from" << m_dir;
+			qWarning() << "LAPlatform::Load: No definition to load from" << m_dir;
 			numberOfFactories = -1;
 		}
   else
@@ -97,7 +98,7 @@ int LAObjectFactoryManager::Load()
         {
 
 #ifdef DEBUG
-          qDebug() << "LAObjectFactoryManager::Load: Processing" << *factoryFilename;
+          qDebug() << "LAPlatform::Load: Processing" << *factoryFilename;
 #endif /* DEBUG */
 
           factory = new LAObjectFactory(this);
@@ -119,7 +120,7 @@ int LAObjectFactoryManager::Load()
     }
 
 #ifdef DEBUG
-    qDebug() << "LAObjectFactoryManager::Load:" << numberOfFactories << "factories read from" << m_dir;
+    qDebug() << "LAPlatform::Load:" << numberOfFactories << "factories read from" << m_dir;
 #endif /* DEBUG */
 
     return numberOfFactories;

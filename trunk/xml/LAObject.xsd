@@ -6,6 +6,8 @@
 				<xsd:attribute name="typeID"        type="xsd:int"   use="required" />
 				<xsd:attribute name="defaultHeight" type="xsd:float" use="required" />
 				<xsd:attribute name="defaultWidth"  type="xsd:float" use="required" />
+				<xsd:attribute name="minimumHeight" type="xsd:float" use="optional" />
+				<xsd:attribute name="minimumWidth"  type="xsd:float" use="optional" />
 			</xsd:sequence>
 		</xsd:complexType>
     <xsd:choice>					

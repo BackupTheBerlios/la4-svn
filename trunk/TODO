@@ -1,8 +1,18 @@
 TODO
 ----
 
-- Load platforms according to setting path
-- Add minimum width, height (+ LAMetaObject class)
+General:
+- Rename keys in namespace (stencil must disappear)
+
+LAObjectFactory/LAMetaObject:
+- Improve loading support
+
+PlatformManager:
+- Improve singleton
+- Implement object creation mechanism from platform (ref to Document must be provided)
+- Reload of platform manager (keep "old" factories if needed, issue warning if factories have doc associated to them)
+- getAlgoFactory for platform manager
+- getPlatformByName for platform manager
 
 Old
 ---

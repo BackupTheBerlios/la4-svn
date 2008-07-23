@@ -32,8 +32,8 @@
 /* LA4 includes */
 
 /* Forward declarations */
-class LAObjectFactoryManager;
 class LAObject;
+class LAPlatform;
 
 /*!
  * Object factory: creates Lacatre objects.
@@ -54,9 +54,9 @@ public:
     /*!
      * Constructor of LAObjectFactory that must be used.
      *
-     * @param aFactoryManager Factory manager that owns this factory.
+     * @param aPlatform    Platform that owns this factory.
      */
-    LAObjectFactory(LAObjectFactoryManager* aFactoryManager);
+    LAObjectFactory(LAPlatform* aPlatform);
 
     /*!
      * Destructor of LAObjectFactory
@@ -126,10 +126,10 @@ public:
      *
      * This design is ok if only one document is associated to a set of factories.
      * In consequence, it is important that each document is associated
-     * to only one factory manager.
+     * to only one platform.
      *
-     * @todo Put it in the factory manager that will delegate it to the workspace 
-     * or to the document + keep a pointer on the manager
+     * @todo Put it in the platform that will delegate it to the workspace 
+     * or to the document + keep a pointer on the platform
      *
      * @retval ID ID that must be given to the object or connector.
      */

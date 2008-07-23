@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAObjectFactoryManager.h                                                  *
+ * LAPlatformManager.h                                                        *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -22,8 +22,8 @@
  * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#ifndef _LAOBJECT_FACTORY_MANAGER_H_
-#define _LAOBJECT_FACTORY_MANAGER_H_
+#ifndef _LAPLATFORMMANAGER_H_
+#define _LAPLATFORMMANAGER_H_
 
 /* Qt includes */
 #include <QList>
@@ -32,12 +32,12 @@
 /* LA4 includes */
 
 /* Forward declarations */
-class LAObjectFactory;
+class LAPlatform;
 
 /*!
- * Manager of all objects factories
+ * Manager of all platforms
  */
-class LAObjectFactoryManager: public QObject
+class LAPlatformManager: public QObject
 {
 
   Q_OBJECT
@@ -45,59 +45,48 @@ class LAObjectFactoryManager: public QObject
   /************************************************************* Public types */
 public:
   /*!
-   * Type Definition for the list of all factories in this zone.
+   * Type Definition for the list of all platforms of the manager.
    */
-  typedef QList<LAObjectFactory*> LAFactoryList;
+  typedef QList<LAPlatform*> LAPlatformList;
 
   /************************************************** Constructors/Destructor */
 public:
   /*!
-   * Default contructor of LAObjectFactoryManager.
-   *
-   * The use of this constructor is forbidden. No implementation is in consequence provided.
+   * Destructor of LAPlatformManager.
    */
-  LAObjectFactoryManager();
-
-  /*!
-   * Constructor of LAObjectFactoryManager.
-   *
-   * @param aFactoriesDirectory Directory with descriptions of all factories.
-   */
-  LAObjectFactoryManager(const QString & aFactoriesDirectory);
-
-  /*!
-   * Destructor of LAObjectFactoryManager.
-   */
-  virtual ~LAObjectFactoryManager();
+  ~LAPlatformManager();
 
   /*********************************************************** Public methods */
 public:
   /*!
-   * Returns the list of factories.
+   * Returns the list of platforms.
    */
-  LAFactoryList * GetFactories();
+  static LAPlatformList * GetPlatforms();
 
   /*!
-   * Loads the factories descriptions and creates the factories.
+   * Loads the platforms.
    */
-  int Load();
+  static int Load();
+
+  /******************************************************** Protected methods */
+protected:
+  /*!
+   * Contructor of LAPlatformManager.
+   *
+   * The use of this constructor is forbidden. It is only used once in the singleton.
+   */
+  LAPlatformManager();
 
   /******************************************************** Protected members */
 protected:
-  /*! Directory of the zone */
-  QString            m_dir;
-
-  /*! List of the factories of the factory manager */
-  LAFactoryList      m_factories;
-
-  /*! ID of the factory manager */
-  QString            m_factoryID;
+  /*! List of platforms */
+  LAPlatformList     m_platforms;
 
   /********************************************************** Private members */
 private:
-  /*! Default */
-  static const QString LAOBJECT_EXTENSION_FILTER;
+  /*! Singleton */
+  static LAPlatformManager* _M_ManagerSingleton;
 
 };
 
-#endif /* _LAOBJECT_FACTORY_MANAGER_H_ */
+#endif /* _LAPLATFORMMANAGER_H_ */

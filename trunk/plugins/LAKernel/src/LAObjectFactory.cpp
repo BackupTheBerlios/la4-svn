@@ -30,7 +30,7 @@
 #include <QtDebug>
 
 /* LA4 includes */
-#include "LAObjectFactoryManager.h"
+#include "LAPlatform.h"
 #include "LAObject.h"
 
 /* Other includes */
@@ -43,8 +43,8 @@
 int LAObjectFactory::M_nextID = 1;
 
 /************************************************** Constructors/Destructor */
-LAObjectFactory::LAObjectFactory(LAObjectFactoryManager* aFactoryManager):
-  QObject          (aFactoryManager),
+LAObjectFactory::LAObjectFactory(LAPlatform* aPlatform):
+  QObject          (aPlatform),
   m_factoryObject  (NULL)
 {
 }
@@ -77,38 +77,38 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
   /* Returned value */
   int result = -1;
 
- 	QFile factoryFile(aFactoryDirectory + "/" + aFactoryFilename);
+   QFile factoryFile(aFactoryDirectory + "/" + aFactoryFilename);
 
-	if (factoryFile.exists() && factoryFile.open(QIODevice::ReadOnly))
-		{
-			/* Load and parse the object description file */
-			QDomDocument objectDocument;
-			objectDocument.setContent(&factoryFile);
+  if (factoryFile.exists() && factoryFile.open(QIODevice::ReadOnly))
+    {
+      /* Load and parse the object description file */
+      QDomDocument objectDocument;
+      objectDocument.setContent(&factoryFile);
 
-			/* Check if the file is OK. */
-			/* @todo Implement file check */
-			if (true)
-				{
+      /* Check if the file is OK. */
+      /* @todo Implement file check */
+      if (true)
+        {
 
 #ifdef DEBUG
           qDebug() << "LAObjectFactory::LoadDescription: Loading factory from file" << factoryFile.fileName();
 #endif /* DEBUG */
 
-					/* Looking for the node with description of the object */
-					QDomElement rootNode = objectDocument.documentElement();
+          /* Looking for the node with description of the object */
+          QDomElement rootNode = objectDocument.documentElement();
 
           /* Create object */
           m_factoryObject = new LAObject();
 
           /* Load object */
           result = m_factoryObject->LoadDescription(rootNode);
-				}
-			else
-				{
-					qWarning() << "LAObjectFactory::LoadDescription:" << factoryFile.fileName() << "Check of factory description FAILED. Please check your XML definitions.";
-				}
+        }
+      else
+        {
+          qWarning() << "LAObjectFactory::LoadDescription:" << factoryFile.fileName() << "Check of factory description FAILED. Please check your XML definitions.";
+        }
 
- 		}
+     }
 
   /* Return the result */
   return result;

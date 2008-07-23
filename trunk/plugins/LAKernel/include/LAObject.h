@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAObject.h                                                                *
+ * LAObject.h                                                                 *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -32,6 +32,7 @@
 /* LA4 includes */
 
 /* Forward declarations */
+class LAMetaObject;
 class LAObjectFactory;
 
 /*!
@@ -40,49 +41,49 @@ class LAObjectFactory;
 class LAObject : public QObject
 {
 
-	Q_OBJECT
-  /****************************************************** Frient declarations */
+  Q_OBJECT
+  /****************************************************** Friend declarations */
 public:
   friend class LAObjectFactory;
 
-	/************************************************** Constructors/Destructor */
+  /************************************************** Constructors/Destructor */
 public:
-	/*!
-	 * Default constructor is protected.
-	 */
+  /*!
+   * Default constructor is protected.
+   */
 
-	/*!
-	 * Destructor of LAObject.
-	 */
-	virtual ~LAObject();
+  /*!
+   * Destructor of LAObject.
+   */
+  virtual ~LAObject();
 
-	/*********************************************************** Public methods */
+  /*********************************************************** Public methods */
 public:
-	/*!
-	 * Creates a copy of the object itself and return a pointer on the new object
-	 *
-	 * @param x X-coordinate of the new object
-	 * @param y Y-coordinate of the new object
-	 * @param w Width of the new object. If -1, it is created with the default width
-	 * @param h Height of the new object. If -1, it is created with the default height
-	 *
-	 * @retval pointer Pointer on the created object
-	 */
-	virtual LAObject* Clone(double x, double y, double w = -1, double h = -1);
+  /*!
+   * Creates a copy of the object itself and return a pointer on the new object
+   *
+   * @param x X-coordinate of the new object
+   * @param y Y-coordinate of the new object
+   * @param w Width of the new object. If -1, it is created with the default width
+   * @param h Height of the new object. If -1, it is created with the default height
+   *
+   * @retval pointer Pointer on the created object
+   */
+  virtual LAObject* Clone(double x, double y, double w = -1, double h = -1);
 
-	/*!
-	 * Indicates the object ID
-	 *
-	 * @retval objectID The ID of the object
-	 */
-	int getObjectID() { return m_objectID; };
+  /*!
+   * Indicates the object ID
+   *
+   * @retval objectID The ID of the object
+   */
+  int getObjectID() { return m_objectID; };
 
-	/*!
-	 * Indicates the type ID of the object
-	 *
-	 * @retval typeID The type ID of the object
-	 */
-	int getTypeID() { return m_typeID; };
+  /*!
+   * Indicates the type ID of the object
+   *
+   * @retval typeID The type ID of the object
+   */
+  int getTypeID() { return m_typeID; };
 
   /*!
    * Loads information about the object from the given XML node
@@ -95,43 +96,46 @@ public:
    */
   virtual int LoadDescription(QDomNode& aNode);
 
-	/******************************************************** Protected methods */
+  /******************************************************** Protected methods */
 protected:
-	/*!
-	 * Default constructor of LAObject.
-	 */
-	LAObject();
-	
-	/*!
-	 * The copy constructor is used for internal purposes ONLY.
-	 *
-	 * Use Clone() method instead.
-	 *
-	 * @param object Object to copy.
-	 */
-	LAObject(const LAObject& object);
+  /*!
+   * Default constructor of LAObject.
+   */
+  LAObject();
+  
+  /*!
+   * The copy constructor is used for internal purposes ONLY.
+   *
+   * Use Clone() method instead.
+   *
+   * @param object Object to copy.
+   */
+  LAObject(const LAObject& object);
 
-	/******************************************************** Protected members */
+  /******************************************************** Protected members */
 protected:
-	/*! Height of the object */
-	double m_height;
+  /*! Height of the object */
+  double        m_height;
 
-	/*! ID of the object */
-	int m_objectID;
+  /*! Meta object of the object */
+  LAMetaObject* m_metaObject;
+
+  /*! ID of the object */
+  int           m_objectID;
 
   /*! Type ID of the object */
-  int m_typeID;
+  int           m_typeID;
 
-	/*! Width of the object */
-	double m_width;
+  /*! Width of the object */
+  double        m_width;
 
-	/*! X coordinate of the object */
-	double m_xCoordinate;
+  /*! X coordinate of the object */
+  double        m_xCoordinate;
 
-	/*! Y coordinate of the object */
-	double m_yCoordinate;
+  /*! Y coordinate of the object */
+  double        m_yCoordinate;
 
-	/******************************************************** Private constants */
+  /******************************************************** Private constants */
 private:
   /* Attribute names */
   static const QString XML_DEFAULT_HEIGHT_ATTRIBUTE;

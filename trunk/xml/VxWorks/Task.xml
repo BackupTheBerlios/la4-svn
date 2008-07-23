@@ -24,7 +24,7 @@
 <!--                                                                        -->
 <!-- Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>         -->
 
-<LAExecutionObject defaultWidth="40" defaultHeight="100" typeID="101">
+<LAExecutionObject defaultWidth="40" defaultHeight="100" minimumWidth="40" minimumHeight="80" typeID="101">
 
 	<!-- User documentation -->
 	<!-- __________________ -->
