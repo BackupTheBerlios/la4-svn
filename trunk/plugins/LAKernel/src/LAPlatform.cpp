@@ -32,7 +32,7 @@
 #include "LAObjectFactory.h"
 
 /* Debugging levels */
-#define DEBUG
+#undef DEBUG
 
 /* Constants */
 const QString LAPlatform::LAOBJECT_EXTENSION_FILTER = "*.xml";
@@ -40,6 +40,7 @@ const QString LAPlatform::LAOBJECT_EXTENSION_FILTER = "*.xml";
 /************************************************** Constructors/Destructor */
 LAPlatform::LAPlatform(const QString& aFactoriesDirectory):
   m_dir       (aFactoriesDirectory),
+  m_name      (""),
   m_platformID("")
 {
     /* All factories of the zone are destroyed with the zone */
@@ -56,9 +57,14 @@ LAPlatform::~LAPlatform()
 }
 
 /*********************************************************** Public methods */
-LAPlatform::LAFactoryList* LAPlatform::GetFactories()
+const LAPlatform::LAFactoryList* LAPlatform::getFactories() const
 {
 	return &m_factories;
+}
+
+const QString LAPlatform::getName() const
+{
+	return m_name;
 }
 
 int LAPlatform::Load()
@@ -116,6 +122,20 @@ int LAPlatform::Load()
             }
 
         }
+
+    }
+
+  /* If more than one factory exists */
+  if (0 < numberOfFactories)
+    {
+      /* Set a non empty name to the platform */
+      /* We assume that directory is not root directory  */
+      /* Otherwise, the dirName() method will return "" */
+      m_name = factoriesDirectory.dirName();
+
+#ifdef DEBUG
+    qDebug() << "LAPlatform::Load: Platform" << m_name << "loaded";
+#endif /* DEBUG */
 
     }
 

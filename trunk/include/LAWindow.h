@@ -44,65 +44,65 @@ class LAWindow : public QMainWindow
 {
     Q_OBJECT
 
-	/****************************************************** Friend declarations */
+  /****************************************************** Friend declarations */
 public:
-	friend class LAProject;
+  friend class LAProject;
 
-  	/************************************************** Constructors/Destructor */
+  /************************************************** Constructors/Destructor */
 public:
-	/*!
-	 * Default constructor
-	 *
-	 * \param project_ Project the window must handle.
-	 */
-	LAWindow(QWidget * parent = 0); //LAProject * project_);
+  /*!
+   * Default constructor
+   *
+   * \param project_ Project the window must handle.
+   */
+  LAWindow(QWidget * parent = 0); //LAProject * project_);
 
-	/*!
-	 * Default destructor
-	 */
-	virtual ~LAWindow();
+  /*!
+   * Default destructor
+   */
+  virtual ~LAWindow();
 
-  	/************************************************************* Public slots */
+  /************************************************************* Public slots */
 public slots:
-	/*!
-	 * Reset preferences to default values
-	 */
-	void ResetPreferences();
+  /*!
+   * Reset preferences to default values
+   */
+  void ResetPreferences();
 
-  	/****************************************************************** Signals */
+  /****************************************************************** Signals */
 signals:
 
-	/******************************************************** Protected methods */
+  /******************************************************** Protected methods */
 protected:
 
-  	/********************************************************** Protected slots */
+  /********************************************************** Protected slots */
 protected slots:
-	/*!
-	 * This slot performs the action of the Edit/Preferences menu item
-	 */
-	void editPreferences();
+  /*!
+   * This slot performs the action of the Edit/Preferences menu item
+   */
+  void editPreferences();
 
-	/*!
-	 * This slot performs the action of the Help/About menu item
-	 */
-	void helpAbout();
+  /*!
+   * This slot performs the action of the Help/About menu item
+   */
+  void helpAbout();
 
-	/******************************************************** Protected members */
+  /******************************************************** Protected members */
 protected:
 
-	/********************************************************** Private members */
+  /********************************************************** Private members */
 private:
-	/*! About dialog (not null if it has been showed at least once) */
-    QDialog * m_aboutDialog;
+  /*! About dialog (not null if it has been showed at least once) */
+  QDialog * m_aboutDialog;
 
-	/*! Ui instance for the about dialog setup */
-	Ui_LAAboutDialog * m_LAAboutDialog_Ui;
+  /*! Ui instance for the about dialog setup */
+  Ui_LAAboutDialog * m_LAAboutDialog_Ui;
 
-	/*! Options dialog */
-	QDialog * m_optionsDialog;
+  /*! Options dialog */
+  QDialog * m_optionsDialog;
 
-	/*! Private UI actual window */
-    Ui::LAWindowClass m_ui;
+  /*! Private UI actual window */
+  Ui::LAWindowClass m_ui;
 
 };
 

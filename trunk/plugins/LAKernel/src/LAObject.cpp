@@ -32,7 +32,7 @@
 
 /* Debugging levels */
 #undef DEBUG
-#define XML_DEBUG
+#undef XML_DEBUG
 
 /* XML constants */
 const QString LAObject::XML_DEFAULT_HEIGHT_ATTRIBUTE = "defaultHeight";

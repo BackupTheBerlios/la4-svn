@@ -69,7 +69,7 @@ void LAPreferencesDialog::ResetToDefault()
 	/* Folder tab */
 	LA4_Global_Settings.SetValue(LA4::DEFAULT_SAVE_PATH_KEY, homePath);
 	LA4_Global_Settings.SetValue(LA4::DEFAULT_OPEN_PATH_KEY, homePath);
-	LA4_Global_Settings.SetValue(LA4::STENCILS_PATH_KEY, applicationPath + QDir::separator() + LA4::STENCILS_DEFAULT_DIRECTORY);
+	LA4_Global_Settings.SetValue(LA4::PLATFORMS_PATH_KEY, applicationPath + QDir::separator() + LA4::PLATFORMS_DEFAULT_DIRECTORY);
 
 	/* File association tab */
 
@@ -113,7 +113,7 @@ void LAPreferencesDialog::show()
 	/**********************/
 	m_ui.savePath->setText(LA4::SettingValue(LA4::DEFAULT_SAVE_PATH_KEY));
 	m_ui.openPath->setText(LA4::SettingValue(LA4::DEFAULT_OPEN_PATH_KEY));
-	m_ui.xmldefPath->setText(LA4::SettingValue(LA4::STENCILS_PATH_KEY));
+	m_ui.xmldefPath->setText(LA4::SettingValue(LA4::PLATFORMS_PATH_KEY));
 
 	/* File associations tab options */
 	/*********************************/
@@ -168,7 +168,7 @@ void LAPreferencesDialog::applyPreferences()
 	/* Folder tab */
 	LA4_Global_Settings.SetValue(LA4::DEFAULT_SAVE_PATH_KEY, m_ui.savePath->text());
 	LA4_Global_Settings.SetValue(LA4::DEFAULT_OPEN_PATH_KEY, m_ui.openPath->text());
-	LA4_Global_Settings.SetValue(LA4::STENCILS_PATH_KEY, m_ui.xmldefPath->text());
+	LA4_Global_Settings.SetValue(LA4::PLATFORMS_PATH_KEY, m_ui.xmldefPath->text());
 
 	/* File association tab */
 
@@ -229,7 +229,7 @@ void LAPreferencesDialog::openSecuritySavePathDialog()
 
 void LAPreferencesDialog::openXMLDefinitionsPathDialog()
 {
-	m_ui.xmldefPath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get stencil directory"), m_ui.xmldefPath->text()));
+	m_ui.xmldefPath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get platform directory"), m_ui.xmldefPath->text()));
 }
 
 void LAPreferencesDialog::savePreferencesAndExit()

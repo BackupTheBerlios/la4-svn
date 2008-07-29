@@ -75,7 +75,12 @@ public:
   /*!
    * Returns the list of factories.
    */
-  LAFactoryList * GetFactories();
+  const LAFactoryList* getFactories() const;
+
+  /*!
+   * Returns the list of factories.
+   */
+  const QString getName() const;
 
   /*!
    * Loads the factories descriptions and creates the factories.
@@ -89,6 +94,9 @@ protected:
 
   /*! List of the factories of the platform */
   LAFactoryList      m_factories;
+
+  /*! Name of the platform */
+  QString            m_name;
 
   /*! ID of the platform */
   QString            m_platformID;

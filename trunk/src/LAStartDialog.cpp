@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAMetaObject.cpp                                                           *
+ * LAStartDialog.cpp                                                          *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -19,71 +19,86 @@
  *                                                                            *
  ******************************************************************************
  * LA4: Tool for real-time systems design                                     *
- * Copyright (C) 2002-2006 by LA4 team <la4-dev@lists.berlios.de>             *
+ * Copyright (C) 2002-2007 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#include "LAMetaObject.h"
+#include "LAStartDialog.h"
 
 /* Qt includes */
+#include <QFileDialog>
 #include <QtDebug>
 
 /* LA4 includes */
+#include "LAPlatform.h"
+#include "LAPlatformManager.h"
 
 /* Debugging levels */
-#undef DEBUG
-#undef XML_DEBUG
-
-/* XML constants */
-const QString LAMetaObject::XML_MINIMUM_HEIGHT_ATTRIBUTE = "minimumHeight";
-const QString LAMetaObject::XML_MINIMUM_WIDTH_ATTRIBUTE  = "minimumWidth";
+#define DEBUG
 
 /************************************************** Constructors/Destructor */
-/* Note: this constructor is protected */
-LAMetaObject::LAMetaObject(QDomNode& aNode)
+LAStartDialog::LAStartDialog(QWidget * parent)
+	: QDialog(parent)
 {
 
-#ifdef XML_DEBUG
-  qDebug() << "LAMetaObject::LAMetaObject:Begin";
-#endif /* XML_DEBUG */
+	/* First, let Qt do its stuff */
+	m_ui.setupUi(this);
 
-	/* Convert node to element and work with that element */
-	QDomElement element = aNode.toElement();
+}
 
-  /* Set width and height according to default values */
-	m_minimumHeight = element.attribute(XML_MINIMUM_HEIGHT_ATTRIBUTE, "0").toFloat();
-	m_minimumWidth  = element.attribute(XML_MINIMUM_WIDTH_ATTRIBUTE, "0").toFloat();
+LAStartDialog::~LAStartDialog()
+{
+}
 
-#ifdef XML_DEBUG
-  qDebug() << "LAMetaObject::LAMetaObject: Minimum height =" << m_minimumHeight;
-  qDebug() << "LAMetaObject::LAMetaObject: Minimum width  =" << m_minimumWidth;
-#endif /* XML_DEBUG */
+/************************************************************* Public slots */
+void LAStartDialog::openBrowseDialog()
+{
 
-#ifdef XML_DEBUG
-  qDebug() << "LAMetaObject::LAMetaObject:End";
-#endif /* XML_DEBUG */
+  QString filename = QFileDialog::getOpenFileName(this, tr("LA4 - Get LA4 file"), "", tr("LA4 files (*.la4)"));
+
+  /* If the user accepted the dialog, set new text to line edit */
+	if (!filename.isNull())
+    {
+      m_ui.filenamePath->setText(filename);
 
 #ifdef DEBUG
-    qDebug("LAMetaObject: %p constructed.", this);
+      qDebug() << "LAStartDialog: Browse - Filename was" << filename;
 #endif /* DEBUG */
 
-}
+    }
+  else
+    {
 
-LAMetaObject::~LAMetaObject()
-{
-	
 #ifdef DEBUG
-	qDebug("LAObject: %p deleted.", this);
+      qDebug() << "LAStartDialog: Browse - No file selected";
 #endif /* DEBUG */
 
+    }
+
 }
 
-/******************************************************** Protected methods */
-double LAMetaObject::getMinimumHeight() const
+void LAStartDialog::show()
 {
-  return m_minimumHeight;
-}
 
-double LAMetaObject::getMinimumWidth() const
-{
-  return m_minimumWidth;
+	/* Initialise fields */
+
+  /* Get platforms and add them to list */
+  m_ui.PlatformZoneList->clear();
+  LAPlatform* platformPtr;
+  foreach (platformPtr, *LAPlatformManager::getPlatforms())
+    {
+
+#ifdef DEBUG
+      qDebug() << "LAStartDialog: Adding platform" << platformPtr->getName();
+#endif /* DEBUG */
+
+      m_ui.PlatformZoneList->addItem(platformPtr->getName());
+
+    }
+
+  /* This dialog is modal */
+  setModal(true);
+
+	/* Show the dialog */
+	QDialog::show();
+
 }

@@ -36,7 +36,7 @@
 /* Other includes */
 
 /* Debugging levels */
-#define DEBUG
+#undef DEBUG
 #undef XML_DEBUG
 
 /* Static next ID value */

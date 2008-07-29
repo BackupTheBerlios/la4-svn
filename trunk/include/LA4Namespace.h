@@ -184,13 +184,13 @@ namespace LA4 {
     const QString SECURITY_SAVE_PATH_KEY = "securitySavePath";
 
     /*!
-     * Stencils definitions will be found in this path
+     * Platform definitions will be found in this path
      * Typically, this path is PATH_TO_LA4/xmldefs, but can
      * be changed by the user.
      */
-    const QString STENCILS_PATH_KEY = "stencilsPath";
+    const QString PLATFORMS_PATH_KEY = "stencilsPath";
     /*! This is the default subdirectory for XML definitions */
-    const QString STENCILS_DEFAULT_DIRECTORY = "xmldefs"; 
+    const QString PLATFORMS_DEFAULT_DIRECTORY = "xmldefs"; 
 
     /*!
      * Preference/Setting file naming

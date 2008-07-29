@@ -52,7 +52,8 @@ QT += core \
 # User interface
 FORMS += ui/LAPreferencesWindow.ui \
     ui/LAAboutWindow.ui \
-    ui/LAWindow.ui
+    ui/LAWindow.ui \
+    ui/LAStartDialog.ui
 
 # Sources
 SOURCES += \
@@ -68,6 +69,7 @@ SOURCES += \
     src/LAPreferencesDialog.cpp \
     src/LASettings.cpp \
     src/LA4Namespace.cpp \
+    src/LAStartDialog.cpp \
     src/LAWindow.cpp \
     src/main.cpp
 
@@ -85,6 +87,7 @@ HEADERS = include/lacatre/LACATRE_PluginPool.h \
     include/LAPreferencesDialog.h \
     include/LASettings.h \
     include/LA4Namespace.h \
+    include/LAStartDialog.h \
     include/LAWindow.h
 
 # Translations, only french for now

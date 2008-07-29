@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAPlatformManager.h                                                        *
+ * LAStartDialog.h                                                            *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -22,85 +22,60 @@
  * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#ifndef _LAPLATFORMMANAGER_H_
-#define _LAPLATFORMMANAGER_H_
+#ifndef LA_START_DIALOG_H_
+#define LA_START_DIALOG_H_
 
 /* Qt includes */
-#include <QMultiMap>
-#include <QObject>
+#include <QtGui/QDialog>
 
 /* LA4 includes */
+#include "ui_LAStartDialog.h"
 
 /* Forward declarations */
-class LAPlatform;
 
 /*!
- * Manager of all platforms
+ * This dialog displays the start dialog used to create a new document.
  */
-class LAPlatformManager: public QObject
+class LAStartDialog : public QDialog
 {
-
   Q_OBJECT
-
-  /************************************************************* Public types */
-public:
-  /*!
-   * Type Definition for the list of all platforms of the manager.
-   */
-  typedef QMultiMap<QString, LAPlatform*> LAPlatformList;
 
   /************************************************** Constructors/Destructor */
 public:
   /*!
-   * Destructor of LAPlatformManager.
-   */
-  ~LAPlatformManager();
-
-  /*********************************************************** Public methods */
-public:
-  /*!
-   * Returns the list of platforms.
-   */
-  static LAPlatformList * getPlatforms();
-
-  /*!
-   * Loads the platforms.
+   * Default constructor
    *
-   * @param aDirectory         Directory containing the platforms definitions
-   * @param aKeepPlatforms     Should we keep existing platforms in platform list
+   * \param parent Parent of the window
    */
-  static int Load(const QString& aDirectory,
-                  const bool&    aKeepPlatforms = false);
+  LAStartDialog(QWidget * parent = 0);
 
-  /******************************************************** Protected methods */
-protected:
   /*!
-   * Contructor of LAPlatformManager.
-   *
-   * The use of this constructor is forbidden. It is only used once in the singleton.
+   * Default destructor
    */
-  LAPlatformManager();
+  ~LAStartDialog();
 
-  /******************************************************** Protected members */
-protected:
-  /*! List of platforms */
-  LAPlatformList     m_platforms;
+  /************************************************************* Public slots */
+public slots:
+	/*!
+	 * Opens browse dialog
+	 * 
+	 * This slot will update the filename field if the dialog is accepted.
+	 */
+	void openBrowseDialog();
 
-  /*! List of old platforms */
-  LAPlatformList     m_oldPlatforms;
-
-  /********************************************************** Private methods */
-private:
   /*!
-   * Creates the singleton if needed
+   * This slot reinitialises the dialog and calls the parent show method. 
    */
-  static void checkSingleton();
+  void show();
+
+  /****************************************************************** Signals */
+signals:
 
   /********************************************************** Private members */
 private:
-  /*! Singleton */
-  static LAPlatformManager* _M_ManagerSingleton;
+  /*! Private UI actual window */
+  Ui::LAStartDialog m_ui;
 
 };
 
-#endif /* _LAPLATFORMMANAGER_H_ */
+#endif /* LA_START_DIALOG_H_ */

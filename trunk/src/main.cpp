@@ -28,8 +28,10 @@
 #include <QTranslator>
 
 /* LA4 includes */
+#include "LA4Namespace.h"
 #include "LAPlatformManager.h"
 #include "LASettings.h"
+#include "LAStartDialog.h"
 #include "LAWindow.h"
 
 /* Debugging levels */
@@ -82,12 +84,15 @@ int main(int argc, char *argv[])
   mainWindow.connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), &mainWindow, SLOT(ResetPreferences()));
   LA4_Global_Settings.ConfigureApplication();
 
+  /* Load platforms */
+  LAPlatformManager::Load(LA4::SettingValue(LA4::PLATFORMS_PATH_KEY));
+
   mainWindow.show();
   app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
-  /* TOREMOVE: Test of platform manager */
-  LAPlatformManager::Load();
-  /* TOREMOVE:Test of platform manager */
+  /* Test start dialog */
+  LAStartDialog startDialog;
+  startDialog.show();
 
   /* Execute the application */
   return app.exec();
