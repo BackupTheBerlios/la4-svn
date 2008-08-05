@@ -3,6 +3,7 @@ TODO
 
 General:
 - Implement document creation
+- Logging "framework"
 
 LAObjectFactory/LAMetaObject:
 - Improve loading support
@@ -12,6 +13,11 @@ PlatformManager:
 - Reload of platform manager (issue warning if factories have doc associated to them)
 - getAlgoPlatform for platform manager
 - getPlatformByName for platform manager
+
+Next step:
+- Basic loading of a document (name or something like that in the menu bar)
+- Configuration change of the xml definitions path correctly handled
+- Basic loading correctly handled (windows and buttons behave correcty)
 
 Old
 ---

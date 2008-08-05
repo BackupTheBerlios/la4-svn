@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAStartDialog.h                                                            *
+ * LAProject.h                                                                *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -22,64 +22,82 @@
  * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#ifndef LA_START_DIALOG_H_
-#define LA_START_DIALOG_H_
+#ifndef _LAPROJECT_H_
+#define _LAPROJECT_H_
 
-/* Qt includes */
-#include <QtGui/QDialog>
+/* Qt include */
 
 /* LA4 includes */
-#include "ui_LAStartDialog.h"
+#include <LACATRE_Doc.h>
 
 /* Forward declarations */
+class LAWindow;
 
 /*!
- * This dialog displays the start dialog used to create a new document.
+ * A LAProject is responsible of one project and therefore of one user window.
+ *
+ *
  */
-class LAStartDialog : public QDialog
+class LAProject : public QObject
 {
   Q_OBJECT
 
-  /****************************************************** Friend declarations */
+  /************************************************************* Public types */
 public:
-  friend class LAProject;
+  /*!
+   * Start project mode
+   */
+  typedef enum {
+    NEW_PROJECT,   /* The project is a new one */
+    EXISTING_FILE  /* We should load a file or ask to the user to select one */
+  } LAProjectMode;
 
   /************************************************** Constructors/Destructor */
 public:
   /*!
    * Default constructor
    *
-   * \param parent Parent of the window
+   * Does nothing
    */
-  LAStartDialog(QWidget * parent = 0);
+  LAProject();
 
   /*!
-   * Default destructor
+   * Destructor
    */
-  ~LAStartDialog();
+  ~LAProject();
+
+  /*********************************************************** Public methods */
+public:
+  /*!
+   * Starts a new project, loads plugins and opens the main project window.
+   *
+   * @param aMode          Mode of the new project
+   * @param aFilename      Name of the file to load (only used if mode is EXISTING_FILE
+   *
+   * @retval continue false if the user didn't want to continue, true otherwise
+   */
+  bool StartProject(LAProjectMode aMode = NEW_PROJECT, QString aFilename = "");
+
+  /*!
+   * Returns the pointer to  the (main) lacatre document  of the project
+   *
+   * \retval pointer Pointer to the document
+   */
+  LACATRE_Doc* doc() { return &m_document; };
 
   /************************************************************* Public slots */
 public slots:
-	/*!
-	 * Opens browse dialog
-	 * 
-	 * This slot will update the filename field if the dialog is accepted.
-	 */
-	void openBrowseDialog();
-
-  /*!
-   * This slot reinitialises the dialog and calls the parent show method. 
-   */
-  void show();
-
-  /****************************************************************** Signals */
-signals:
 
   /********************************************************** Private members */
 private:
-  /*! Private UI actual window */
-  Ui::LAStartDialog m_ui;
+  /*! Document of the project */
+  LACATRE_Doc        m_document;
 
+  /*! Project load file plugin */
+  LACATRE_Plugin*    m_loadfilePlugin;
+
+  /*! Window where the document is displayed */
+  LAWindow*          m_projectWindow;
 };
 
-#endif /* LA_START_DIALOG_H_ */
+#endif /* _LAPROJECT_H_ */

@@ -33,7 +33,7 @@
 #include "LAPlatformManager.h"
 
 /* Debugging levels */
-#define DEBUG
+#undef DEBUG
 
 /************************************************** Constructors/Destructor */
 LAStartDialog::LAStartDialog(QWidget * parent)
@@ -78,6 +78,10 @@ void LAStartDialog::openBrowseDialog()
 
 void LAStartDialog::show()
 {
+
+#ifdef DEBUG
+  qDebug() << "LAStartDialog::show";
+#endif /* DEBUG */
 
 	/* Initialise fields */
 

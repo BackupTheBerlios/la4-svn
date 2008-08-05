@@ -50,6 +50,9 @@ LAWindow::LAWindow(QWidget * parent)
 	connect(m_ui.action_Preferences, SIGNAL(triggered()), this, SLOT(editPreferences()));
 	connect(m_ui.action_About, SIGNAL(triggered()), this, SLOT(helpAbout()));
 
+  /* Connect other slots */
+  connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), this, SLOT(ResetPreferences()));
+
 }
 
 LAWindow::~LAWindow()

@@ -69,6 +69,7 @@ SOURCES += \
     src/LAPreferencesDialog.cpp \
     src/LASettings.cpp \
     src/LA4Namespace.cpp \
+    src/LAProject.cpp \
     src/LAStartDialog.cpp \
     src/LAWindow.cpp \
     src/main.cpp
@@ -87,6 +88,7 @@ HEADERS = include/lacatre/LACATRE_PluginPool.h \
     include/LAPreferencesDialog.h \
     include/LASettings.h \
     include/LA4Namespace.h \
+    include/LAProject.h \
     include/LAStartDialog.h \
     include/LAWindow.h
 

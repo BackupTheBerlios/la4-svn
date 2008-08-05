@@ -172,6 +172,11 @@ void LAPlatformManager::checkSingleton()
   /* If singleton is NULL, create it */
   if (NULL == _M_ManagerSingleton)
     {
+
+#ifdef DEBUG
+      qDebug() << "LAPlatformManager::checkSingleton: Creating singleton";
+#endif /* DEBUG */
+
       _M_ManagerSingleton = new LAPlatformManager();
     }
 }

@@ -30,15 +30,15 @@
 /* LA4 includes */
 #include "LA4Namespace.h"
 #include "LAPlatformManager.h"
+#include "LAProject.h"
 #include "LASettings.h"
-#include "LAStartDialog.h"
-#include "LAWindow.h"
 
 /* Debugging levels */
 #undef DEBUG
 
 int main(int argc, char *argv[])
 {
+  int returnCode = -1;
 
   QApplication app(argc, argv);
 
@@ -77,24 +77,23 @@ int main(int argc, char *argv[])
 #endif /* DEBUG */
         }
 
-  /* Create window */
-  LAWindow mainWindow;
-
   /* Configure the application */
-  mainWindow.connect(&LA4_Global_Settings, SIGNAL(GetDefaultValues()), &mainWindow, SLOT(ResetPreferences()));
   LA4_Global_Settings.ConfigureApplication();
+  app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
   /* Load platforms */
   LAPlatformManager::Load(LA4::SettingValue(LA4::PLATFORMS_PATH_KEY));
 
-  mainWindow.show();
-  app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
+  /* Start project */
+  LAProject::LAProjectMode mode = LAProject::NEW_PROJECT;
+  LAProject* theMainProject = new LAProject();
+  if (theMainProject->StartProject(mode, ""))
+    {
+      /* Execute the application */
+      returnCode = app.exec();
+      delete theMainProject;
+    }
 
-  /* Test start dialog */
-  LAStartDialog startDialog;
-  startDialog.show();
-
-  /* Execute the application */
-  return app.exec();
+  return returnCode;
 
 }
