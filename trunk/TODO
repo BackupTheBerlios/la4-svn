@@ -4,6 +4,10 @@ TODO
 General:
 - Implement document creation
 - Logging "framework"
+  * Improve support (enable/disable level or category)
+  * Add other macros for warnings and so on
+  * Log in stdout or stderr depending on level
+  * Use it in all classes
 
 LAObjectFactory/LAMetaObject:
 - Improve loading support

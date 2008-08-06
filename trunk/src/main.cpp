@@ -91,8 +91,9 @@ int main(int argc, char *argv[])
     {
       /* Execute the application */
       returnCode = app.exec();
-      delete theMainProject;
     }
+
+  delete theMainProject;
 
   return returnCode;
 

@@ -72,6 +72,7 @@ SOURCES += \
     src/LAProject.cpp \
     src/LAStartDialog.cpp \
     src/LAWindow.cpp \
+    src/LALogger.cpp \
     src/main.cpp
 
 # Headers
@@ -90,6 +91,7 @@ HEADERS = include/lacatre/LACATRE_PluginPool.h \
     include/LA4Namespace.h \
     include/LAProject.h \
     include/LAStartDialog.h \
+    include/LALogger.h \
     include/LAWindow.h
 
 # Translations, only french for now

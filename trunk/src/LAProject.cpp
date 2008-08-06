@@ -29,23 +29,16 @@
 /* LA4 includes */
 #include "LA4Namespace.h"
 #include "LACATRE_Plugin.h"
+#include "LALogger.h"
 #include "LAStartDialog.h"
 #include "LAWindow.h"
-
-/* Debugging levels */
-#undef DEBUG
-#undef MEM_DEBUG
 
 /************************************************** Constructors/Destructor */
 LAProject::LAProject() :
   m_document        (this),
   m_projectWindow   (NULL)
 {
-
-#ifdef MEM_DEBUG
-  qDebug("LAProject: %p created.", this);
-#endif /* MEM_DEBUG */
-
+  LA_MEM_CREATE()
 }
 
 LAProject::~LAProject()
@@ -55,15 +48,14 @@ LAProject::~LAProject()
       delete m_projectWindow;
     }
 
-#ifdef MEM_DEBUG
-  qDebug("LAProject: %p destroyed.", this);
-#endif /* MEM_DEBUG */
-
+  LA_MEM_DELETE()
 }
 
 /*********************************************************** Public methods */
 bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
 {
+  LA_TRACE_BEGIN_METHOD()
+
   bool projectStarted = false;
 
   bool tryToStartProject = false;
@@ -97,9 +89,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
       startDialog.m_ui.PushButtonBrowze->setEnabled(false);
     }
 
-#ifdef DEBUG
-  qDebug("LAProject::StartProject: Initialisation of project %p.", this);
-#endif /* DEBUG */
+  LA_DEBUG("Initialisation of project")
 
   /* If we must load a file, ask it to the user */
   if (EXISTING_FILE == aMode && "" == aFilename)
@@ -134,6 +124,8 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
       /* The user cancelled the dialog */
       projectStarted = false;
     }
+
+  LA_TRACE_END_METHOD()
 
   /* Clean and return result */
   return projectStarted;
