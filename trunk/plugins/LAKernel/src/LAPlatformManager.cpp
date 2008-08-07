@@ -29,10 +29,8 @@
 #include <QtDebug>
 
 /* LA4 includes */
+#include "LALogger.h"
 #include "LAPlatform.h"
-
-/* Debugging levels */
-#undef DEBUG
 
 /* Singleton instance */
 LAPlatformManager* LAPlatformManager::_M_ManagerSingleton = NULL;
@@ -41,6 +39,7 @@ LAPlatformManager* LAPlatformManager::_M_ManagerSingleton = NULL;
 /* This constructor is protected */
 LAPlatformManager::LAPlatformManager()
 {
+  LA_MEM_CREATE();
 }
 
 LAPlatformManager::~LAPlatformManager()
@@ -51,9 +50,17 @@ LAPlatformManager::~LAPlatformManager()
     {
       delete aPlatformPtr;
     }
+  LA_MEM_DELETE();
 }
 
 /*********************************************************** Public methods */
+void LAPlatformManager::clearPlatforms()
+{
+  /* Just delete the platform manager */
+  delete _M_ManagerSingleton;
+  _M_ManagerSingleton = NULL;
+}
+
 LAPlatformManager::LAPlatformList* LAPlatformManager::getPlatforms()
 {
   /* Create singleton if needed */
@@ -65,6 +72,8 @@ LAPlatformManager::LAPlatformList* LAPlatformManager::getPlatforms()
 int LAPlatformManager::Load(const QString& aDirectory,
                             const bool&    aKeepPlatforms)
 {
+  LA_TRACE_BEGIN_STATIC_METHOD();
+
   /* Returned value */
   int numberOfPlatforms = 0;
 
@@ -78,9 +87,7 @@ int LAPlatformManager::Load(const QString& aDirectory,
   QString          fullPath = "";
  	LAPlatform*      platform = NULL;
 
-#ifdef DEBUG
-  qDebug() << "LAPlatformManager::Load: Path =" << aDirectory;
-#endif /* DEBUG */
+  LA_STATIC_DEBUG_2("LAPlatformManager::Load: Path = %1", aDirectory);
 
   if (!(platformsDirectory.exists()))
     {
@@ -106,9 +113,7 @@ int LAPlatformManager::Load(const QString& aDirectory,
       for (QStringList::Iterator platformDirectory = platformList.begin(); platformList.end() != platformDirectory; platformDirectory++)
         {
 
-#ifdef DEBUG
-          qDebug() << "LAPlatformManager::Load: Processing" << *platformDirectory;
-#endif /* DEBUG */
+          LA_STATIC_DEBUG_2("LAPlatformManager::Load: Processing %1", *platformDirectory);
 
           /* Do not consider dot directories */
           if (!(*platformDirectory).startsWith("."))
@@ -140,9 +145,7 @@ int LAPlatformManager::Load(const QString& aDirectory,
       /* If old platforms are to be erased before */
       if (false == aKeepPlatforms)
         {
-#ifdef DEBUG
-    qDebug() << "LAPlatformManager::Load: Erasing old platforms";
-#endif /* DEBUG */
+          LA_STATIC_DEBUG("LAPlatformManager::Load: Erasing old platforms");
 
           /* Put them in the old platforms list */
           _M_ManagerSingleton->m_oldPlatforms += _M_ManagerSingleton->m_platforms;
@@ -151,32 +154,31 @@ int LAPlatformManager::Load(const QString& aDirectory,
           _M_ManagerSingleton->m_platforms.clear();
         }
 
-#ifdef DEBUG
-      qDebug() << "LAPlatformManager::Load: Adding" << insertedPlatforms.count() << "platforms";
-#endif /* DEBUG */
+      LA_STATIC_DEBUG_2("LAPlatformManager::Load: Adding %1 platforms", insertedPlatforms.count());
 
       /* Add newly loaded platforms to current list */
       _M_ManagerSingleton->m_platforms += insertedPlatforms;
     }
 
-#ifdef DEBUG
-    qDebug() << "LAPlatformManager::Load:" << numberOfPlatforms << "platforms read from" << aDirectory;
-#endif /* DEBUG */
+  LA_STATIC_DEBUG_3("LAPlatformManager::Load: %1 platforms read from %2", numberOfPlatforms, aDirectory);
 
-    return numberOfPlatforms;
+  LA_TRACE_END_STATIC_METHOD();
+
+  return numberOfPlatforms;
 }
 
 /********************************************************** Private methods */
 void LAPlatformManager::checkSingleton()
 {
+  LA_TRACE_BEGIN_STATIC_METHOD();
+
   /* If singleton is NULL, create it */
   if (NULL == _M_ManagerSingleton)
     {
-
-#ifdef DEBUG
-      qDebug() << "LAPlatformManager::checkSingleton: Creating singleton";
-#endif /* DEBUG */
+      LA_STATIC_DEBUG("LAPlatformManager::checkSingleton: Creating singleton");
 
       _M_ManagerSingleton = new LAPlatformManager();
     }
+
+  LA_TRACE_END_STATIC_METHOD();
 }

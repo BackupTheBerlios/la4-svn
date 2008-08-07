@@ -59,9 +59,14 @@ public:
   /*********************************************************** Public methods */
 public:
   /*!
+   * Clears the platform list
+   */
+  static void clearPlatforms();
+
+  /*!
    * Returns the list of platforms.
    */
-  static LAPlatformList * getPlatforms();
+  static LAPlatformList* getPlatforms();
 
   /*!
    * Loads the platforms.

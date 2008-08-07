@@ -25,11 +25,9 @@
 #include "LACATRE_Doc.h"
 
 /* Qt includes */
+#include "LALogger.h"
 
 /* LA4 includes */
-
-/* Debugging levels */
-#undef DEBUG
 
 /* Globals */
 /* Comments inserted in the default new document file */
@@ -42,13 +40,28 @@ LACATRE_Doc::LACATRE_Doc(QObject * parent)
 	: QObject(parent)
 {
 	// createEmptyDocument();
+  LA_MEM_CREATE();
 }
 
 LACATRE_Doc::~LACATRE_Doc()
 {
+  LA_MEM_DELETE();
 }
 
 /*********************************************************** Public methods */
+void LACATRE_Doc::setDocumentFileName(const QString& aDocumentFilename)
+{
+  m_documentFilename = aDocumentFilename;
+  LA_DEBUG_2("Setting new filename for document: %1", aDocumentFilename);
+}
+
+void LACATRE_Doc::setTargetPlatform(const QString& aPlatformName)
+{
+  m_targetPlatform = aPlatformName;
+  LA_DEBUG_2("New platform for document is %1", aPlatformName);
+}
+
+/************************************************************* Public slots */
 void LACATRE_Doc::beginAction(QString message)
 {
 	emit performingAction(message);
@@ -62,10 +75,8 @@ void LACATRE_Doc::endAction(QString message)
 void LACATRE_Doc::modified(LACATRE_Plugin * p)
 {
 
-    (void)p;
+  (void)p;
 
-#ifdef DEBUG
-	qDebug("LACATRE_Doc: Document %p modified by the plugin %p", (void *)this, (void *)p);
-#endif /* DEBUG */
+  LA_DEBUG_2("Document modified by the plugin %p", QString().sprintf("%p", p));
 
 }

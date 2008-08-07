@@ -30,15 +30,24 @@
 
 /* Macros */
 /* Memory debugging */
-#define LA_MEM_CREATE()  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p created", this), __FILE__, __LINE__);
-#define LA_MEM_DELETE()  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p deleted", this), __FILE__, __LINE__);
+#define LA_MEM_CREATE();  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p created", this), __FILE__, __LINE__);
+#define LA_MEM_DELETE();  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p deleted", this), __FILE__, __LINE__);
 
 /* Methods debugging */
-#define LA_TRACE_BEGIN_METHOD()  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p >>> %s()", this, __func__), __FILE__, __LINE__);
-#define LA_TRACE_END_METHOD()  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p <<< %s()", this, __func__), __FILE__, __LINE__);
+#define LA_TRACE_BEGIN_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p >>> %s()", this, __func__), __FILE__, __LINE__);
+#define LA_TRACE_END_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p <<< %s()", this, __func__), __FILE__, __LINE__);
+
+#define LA_TRACE_BEGIN_STATIC_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("STATIC   >>> %s()", __func__), __FILE__, __LINE__);
+#define LA_TRACE_END_STATIC_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("STATIC   <<< %s()", __func__), __FILE__, __LINE__);
 
 /* Traces */
-#define LA_DEBUG(a) LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a), __FILE__, __LINE__);
+#define LA_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a), __FILE__, __LINE__);
+#define LA_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b), __FILE__, __LINE__);
+#define LA_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b).arg(c), __FILE__, __LINE__);
+
+#define LA_STATIC_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a), __FILE__, __LINE__);
+#define LA_STATIC_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b), __FILE__, __LINE__);
+#define LA_STATIC_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b).arg(c), __FILE__, __LINE__);
 
 /*!
  * This class is responsible of the logging of all messages of

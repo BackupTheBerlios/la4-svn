@@ -44,18 +44,18 @@ LAPreferencesDialog::LAPreferencesDialog(QWidget * parent)
 	/* First, let Qt do its stuff */
 	m_ui.setupUi(this);
 
-  LA_MEM_CREATE()
+  LA_MEM_CREATE();
 }
 
 LAPreferencesDialog::~LAPreferencesDialog()
 {
-  LA_MEM_DELETE()
+  LA_MEM_DELETE();
 }
 
 /************************************************************* Public slots */
 void LAPreferencesDialog::ResetToDefault()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 
 	/* Some useful paths */
 	QString homePath = QDir::toNativeSeparators(QDir::homePath());
@@ -82,12 +82,12 @@ void LAPreferencesDialog::ResetToDefault()
 	LA4_Global_Settings.SetValue(LA4::DISPLAY_STATUS_BAR_KEY, LA4::DISPLAY_STATUS_BAR_DEFAULT_VALUE);
 	LA4_Global_Settings.SetValue(LA4::DISPLAY_STATUS_TIPS_KEY, LA4::DISPLAY_STATUS_TIPS_DEFAULT_VALUE);
 
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::show()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 
 	/* Initialise fields */
 
@@ -142,13 +142,13 @@ void LAPreferencesDialog::show()
 	/* Show the dialog */
 	QDialog::show();
 
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 /********************************************************** Protected slots */
 void LAPreferencesDialog::applyPreferences()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 
 	/* Disable autosync */
 	LA4_Global_Settings.DisableAutosave();
@@ -209,49 +209,49 @@ void LAPreferencesDialog::applyPreferences()
 	/* Save settings */
 	LA4_Global_Settings.EnableAutosave();
 
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::associateFile()
 {
-	LA_DEBUG("Function not implemented")
+	LA_DEBUG("Function not implemented");
 }
 
 void LAPreferencesDialog::openOpenPathDialog()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 	m_ui.openPath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get default open directory"), m_ui.openPath->text()));
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::openSavePathDialog()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 	m_ui.savePath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get default save directory"), m_ui.savePath->text()));
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::openSecuritySavePathDialog()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 	m_ui.securitySavePath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get backup directory"), m_ui.securitySavePath->text()));
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::openXMLDefinitionsPathDialog()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 	m_ui.xmldefPath->setText(QFileDialog::getExistingDirectory(this, tr("LA4 - Get platform directory"), m_ui.xmldefPath->text()));
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }
 
 void LAPreferencesDialog::savePreferencesAndExit()
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 
 	/* Apply preferences and accept dialog */
 	applyPreferences();
 	accept();
 
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 }

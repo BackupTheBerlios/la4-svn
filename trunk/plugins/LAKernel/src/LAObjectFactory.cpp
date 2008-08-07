@@ -30,14 +30,11 @@
 #include <QtDebug>
 
 /* LA4 includes */
+#include "LALogger.h"
 #include "LAPlatform.h"
 #include "LAObject.h"
 
 /* Other includes */
-
-/* Debugging levels */
-#undef DEBUG
-#undef XML_DEBUG
 
 /* Static next ID value */
 int LAObjectFactory::M_nextID = 1;
@@ -47,6 +44,7 @@ LAObjectFactory::LAObjectFactory(LAPlatform* aPlatform):
   QObject          (aPlatform),
   m_factoryObject  (NULL)
 {
+  LA_MEM_CREATE();
 }
 
 LAObjectFactory::~LAObjectFactory()
@@ -57,6 +55,7 @@ LAObjectFactory::~LAObjectFactory()
       delete m_factoryObject;
     }
 
+  LA_MEM_DELETE();
 }
 
 /*********************************************************** Public methods */
@@ -74,10 +73,12 @@ int LAObjectFactory::getTypeID()
 int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
                                      const QString & aFactoryFilename)
 {
+  LA_TRACE_BEGIN_METHOD();
+
   /* Returned value */
   int result = -1;
 
-   QFile factoryFile(aFactoryDirectory + "/" + aFactoryFilename);
+  QFile factoryFile(aFactoryDirectory + "/" + aFactoryFilename);
 
   if (factoryFile.exists() && factoryFile.open(QIODevice::ReadOnly))
     {
@@ -90,9 +91,7 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
       if (true)
         {
 
-#ifdef DEBUG
-          qDebug() << "LAObjectFactory::LoadDescription: Loading factory from file" << factoryFile.fileName();
-#endif /* DEBUG */
+          LA_DEBUG_2("LAObjectFactory::LoadDescription: Loading factory from file %1", factoryFile.fileName());
 
           /* Looking for the node with description of the object */
           QDomElement rootNode = objectDocument.documentElement();
@@ -110,6 +109,8 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
 
      }
 
+  LA_TRACE_END_METHOD();
+
   /* Return the result */
   return result;
 }
@@ -117,14 +118,16 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
 LAObject* LAObjectFactory::NewInstance(double x, double y, double w , double h)
 {
 
-    LAObject * r = (LAObject *)(m_factoryObject->Clone(x, y, w, h));
-    //    r->setObjectID(TakeNextID());
+  LAObject * r = (LAObject *)(m_factoryObject->Clone(x, y, w, h));
+  //    r->setObjectID(TakeNextID());
 
-    return r;
+  return r;
 }
 
 LAObject * LAObjectFactory::NewInstance(const QDomElement& root)
 {
+  LA_TRACE_BEGIN_METHOD();
+
   double x = root.attribute("x").toDouble();
   double y = root.attribute("y").toDouble();
   double w = root.attribute("w").toDouble();
@@ -134,12 +137,15 @@ LAObject * LAObjectFactory::NewInstance(const QDomElement& root)
   LAObject * r = (LAObject *)(m_factoryObject->Clone(x, y, w, h));
 //     r->setObjectID(TakeNextID(ID));
 
-    return r;
+  LA_TRACE_END_METHOD();
+
+  return r;
 }
 
 /**************************************************** Public static methods */
 int LAObjectFactory::TakeNextID(int aID)
 {
+  LA_TRACE_BEGIN_STATIC_METHOD();
 
   if (aID < 0)
     {
@@ -156,6 +162,7 @@ int LAObjectFactory::TakeNextID(int aID)
       M_nextID++;
     }
 
-  return aID;
+  LA_TRACE_END_STATIC_METHOD();
 
+  return aID;
 }

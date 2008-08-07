@@ -38,7 +38,7 @@ LAProject::LAProject() :
   m_document        (this),
   m_projectWindow   (NULL)
 {
-  LA_MEM_CREATE()
+  LA_MEM_CREATE();
 }
 
 LAProject::~LAProject()
@@ -48,13 +48,13 @@ LAProject::~LAProject()
       delete m_projectWindow;
     }
 
-  LA_MEM_DELETE()
+  LA_MEM_DELETE();
 }
 
 /*********************************************************** Public methods */
 bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
 {
-  LA_TRACE_BEGIN_METHOD()
+  LA_TRACE_BEGIN_METHOD();
 
   bool projectStarted = false;
 
@@ -89,7 +89,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
       startDialog.m_ui.PushButtonBrowze->setEnabled(false);
     }
 
-  LA_DEBUG("Initialisation of project")
+  LA_DEBUG("Initialisation of project");
 
   /* If we must load a file, ask it to the user */
   if (EXISTING_FILE == aMode && "" == aFilename)
@@ -115,9 +115,33 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
   /* If the project must be started */
   if (true == tryToStartProject)
     {
-      m_projectWindow->show();
+			/* If we didn't find the appropriate plugins, we quit this window */
+			if (m_projectWindow->connectPlugins() < 0)
+				{
+					projectStarted = false;
+				}
+			else
+        {
+          m_projectWindow->move(0,0);
+          m_projectWindow->resize(800,600);
+          m_projectWindow->show();
 
-      projectStarted = true;
+					/* Load file */
+					if (startDialog.m_ui.RadioButtonOpen->isChecked())
+						{
+              LA_DEBUG_2("Loading a project from file %1", startDialog.m_ui.filenamePath->text());
+
+							m_document.setDocumentFileName(startDialog.m_ui.filenamePath->text());
+						}
+					else /* New project with selected platform */
+						{
+              LA_DEBUG_2("Starting an empty project for target %1", startDialog.m_ui.PlatformList->currentText());
+
+							m_document.setTargetPlatform(startDialog.m_ui.PlatformList->currentText());
+						}
+
+          projectStarted = true;
+        }
     }
   else
     {
@@ -125,7 +149,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
       projectStarted = false;
     }
 
-  LA_TRACE_END_METHOD()
+  LA_TRACE_END_METHOD();
 
   /* Clean and return result */
   return projectStarted;

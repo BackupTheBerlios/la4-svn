@@ -74,6 +74,10 @@ signals:
 
   /******************************************************** Protected methods */
 protected:
+  /*!
+   * Connects all plugin to the window
+   */
+  int connectPlugins();
 
   /********************************************************** Protected slots */
 protected slots:

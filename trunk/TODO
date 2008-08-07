@@ -2,12 +2,19 @@ TODO
 ----
 
 General:
-- Implement document creation
 - Logging "framework"
   * Improve support (enable/disable level or category)
   * Add other macros for warnings and so on
   * Log in stdout or stderr depending on level
   * Use it in all classes
+
+LoadFilePlugin:
+- Basic loading of document
+- Add a XmlSerialiser class to load document from XML format
+  * Implement different methods according to format
+
+LACATRE_Doc:
+- The document platform should not be changed when already set
 
 LAObjectFactory/LAMetaObject:
 - Improve loading support

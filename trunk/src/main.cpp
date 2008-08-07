@@ -93,7 +93,11 @@ int main(int argc, char *argv[])
       returnCode = app.exec();
     }
 
+  /* Delete the project */
   delete theMainProject;
+
+  /* Delete the platform manager */
+  LAPlatformManager::clearPlatforms();
 
   return returnCode;
 

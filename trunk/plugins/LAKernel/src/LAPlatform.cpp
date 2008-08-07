@@ -25,14 +25,12 @@
 #include "LAPlatform.h"
 
 /* Qt includes */
+#include <QDebug>
 #include <QDir>
-#include <QtDebug>
 
 /* LA4 includes */
+#include "LALogger.h"
 #include "LAObjectFactory.h"
-
-/* Debugging levels */
-#undef DEBUG
 
 /* Constants */
 const QString LAPlatform::LAOBJECT_EXTENSION_FILTER = "*.xml";
@@ -43,17 +41,19 @@ LAPlatform::LAPlatform(const QString& aFactoriesDirectory):
   m_name      (""),
   m_platformID("")
 {
-    /* All factories of the zone are destroyed with the zone */
+  /* All factories of the zone are destroyed with the zone */
+  LA_MEM_CREATE();
 }
 
 LAPlatform::~LAPlatform()
 {
-    /* Factories are owned by the platform that must destroy them */
-    LAObjectFactory* aFactoryPtr;
-    foreach (aFactoryPtr, m_factories)
-        {
-            delete aFactoryPtr;
-        }
+  /* Factories are owned by the platform that must destroy them */
+  LAObjectFactory* aFactoryPtr;
+  foreach (aFactoryPtr, m_factories)
+    {
+      delete aFactoryPtr;
+    }
+  LA_MEM_DELETE();
 }
 
 /*********************************************************** Public methods */
@@ -69,6 +69,8 @@ const QString LAPlatform::getName() const
 
 int LAPlatform::Load()
 {
+  LA_TRACE_BEGIN_METHOD();
+
   /* Returned value */
   int numberOfFactories = 0;
 
@@ -103,9 +105,7 @@ int LAPlatform::Load()
       for (QStringList::Iterator factoryFilename = factoriesList.begin(); factoriesList.end() != factoryFilename; factoryFilename++)
         {
 
-#ifdef DEBUG
-          qDebug() << "LAPlatform::Load: Processing" << *factoryFilename;
-#endif /* DEBUG */
+          LA_DEBUG_2("Processing file %1", *factoryFilename);
 
           factory = new LAObjectFactory(this);
           /* Load factory */
@@ -133,15 +133,12 @@ int LAPlatform::Load()
       /* Otherwise, the dirName() method will return "" */
       m_name = factoriesDirectory.dirName();
 
-#ifdef DEBUG
-    qDebug() << "LAPlatform::Load: Platform" << m_name << "loaded";
-#endif /* DEBUG */
-
+      LA_DEBUG_2("LAPlatform::Load: Platform %1 loaded", m_name);
     }
 
-#ifdef DEBUG
-    qDebug() << "LAPlatform::Load:" << numberOfFactories << "factories read from" << m_dir;
-#endif /* DEBUG */
+  LA_DEBUG_3("LAPlatform::Load: %1 factories read from %2", numberOfFactories, m_dir);
 
-    return numberOfFactories;
+  LA_TRACE_END_METHOD();
+
+  return numberOfFactories;
 }

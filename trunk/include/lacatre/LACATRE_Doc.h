@@ -81,6 +81,18 @@ signals:
 	void performingAction(QString message);
 
 	/*********************************************************** Public methods */
+public:
+  /*!
+   * Sets the filenameof the document
+   */
+	void setDocumentFileName(const QString& aDocumentFilename);
+
+  /*!
+   * Sets the platform of the document
+   */
+	void setTargetPlatform(const QString& aPlatformName);
+
+	/************************************************************* Public slots */
 public slots:
 	/*!
 	 * This slot must be activated by a plugin to allow a global information
@@ -120,7 +132,11 @@ protected:
 
 	/********************************************************** Private members */
 private:
+  /*! Filename of the document */
+	QString m_documentFilename;
 
+  /*! Target platform of the document */
+	QString m_targetPlatform;
 };
 
 #endif /* LACATRE_DOC_H_ */
