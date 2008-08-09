@@ -153,7 +153,7 @@ void LALogger::Log(int     aLevel,
     {
     case DEBUG:
       level = "DEBG";
-      toLog = true;
+      toLog = false;
       break;
     case WARNING:
       level = "WARN";
@@ -174,23 +174,18 @@ void LALogger::Log(int     aLevel,
     {
     case MAIN:
       category = "MAIN";
-      toLog = true;
       break;
     case XML:
       category = "XML ";
-      toLog = true;
       break;
     case MEMORY:
       category = "MEM ";
-      toLog = true;
       break;
     case METHOD:
       category = "METH";
-      toLog = true;
       break;
     default:
       category = "UNKN";
-      toLog = true;
       break;
     }
 

@@ -33,15 +33,6 @@
 #define LA_DEBUG_ARGS this, __func__, __FILE__, __LINE__
 #define LA_DEBUG_STATIC_ARGS __func__, __FILE__, __LINE__
 
-/* Traces */
-//#define LA_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a), __FILE__, __LINE__);
-//#define LA_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b), __FILE__, __LINE__);
-//#define LA_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b).arg(c), __FILE__, __LINE__);
-
-//#define LA_STATIC_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a), __FILE__, __LINE__);
-//#define LA_STATIC_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b), __FILE__, __LINE__);
-//#define LA_STATIC_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b).arg(c), __FILE__, __LINE__);
-
 /*!
  * This class is responsible of the logging of all messages of
  * the application.

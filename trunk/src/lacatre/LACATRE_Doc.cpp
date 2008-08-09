@@ -49,6 +49,11 @@ LACATRE_Doc::~LACATRE_Doc()
 }
 
 /*********************************************************** Public methods */
+QString LACATRE_Doc::getDocumentFileName()
+{
+  return m_documentFilename;
+}
+
 void LACATRE_Doc::setDocumentFileName(const QString& aDocumentFilename)
 {
   m_documentFilename = aDocumentFilename;

@@ -90,6 +90,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
                       "No load file plugin. Loading deactivated",
                       LA_DEBUG_ARGS);
       startDialog.m_ui.PushButtonBrowze->setEnabled(false);
+      startDialog.m_ui.RadioButtonOpen->setEnabled(false);
     }
 
   LALogger::Trace(LALogger::DEBUG,
@@ -141,6 +142,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
                               LA_DEBUG_ARGS);
 
 							m_document.setDocumentFileName(startDialog.m_ui.filenamePath->text());
+							m_loadfilePlugin->Action(m_projectWindow, LA4::Load);
 						}
 					else /* New project with selected platform */
 						{

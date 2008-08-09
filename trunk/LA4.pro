@@ -58,6 +58,7 @@ FORMS += ui/LAPreferencesWindow.ui \
 # Sources
 SOURCES += \
     src/lacatre/LACATRE_PluginPool.cpp \
+    src/lacatre/LACATRE_Plugin.cpp \
     src/lacatre/LACATRE_Doc.cpp \
     plugins/src/LoadFilePlugin.cpp \
     plugins/LAKernel/src/LACommand.cpp \

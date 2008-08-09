@@ -48,7 +48,7 @@ class LACATRE_Doc : public QObject
 {
 	Q_OBJECT
 		
-  	/************************************************** Constructors/Destructor */
+ 	/************************************************** Constructors/Destructor */
 public :
 	/*!
 	 * Default constructor.
@@ -62,7 +62,7 @@ public :
 	 */
 	~LACATRE_Doc();
 	
-  	/****************************************************************** Signals */
+ 	/****************************************************************** Signals */
 signals:
 	/*!
 	 * This signal informs when an action has been performed by a plugin
@@ -83,7 +83,12 @@ signals:
 	/*********************************************************** Public methods */
 public:
   /*!
-   * Sets the filenameof the document
+   * Return the filename of the document
+   */
+	QString getDocumentFileName();
+
+  /*!
+   * Sets the filename of the document
    */
 	void setDocumentFileName(const QString& aDocumentFilename);
 

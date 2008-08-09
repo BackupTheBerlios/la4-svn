@@ -35,7 +35,7 @@
 #include "LACATRE_Doc.h"
 #include "LACATRE_PluginPool.h"
 
-/* Forward declarations */
+/* Forward declaration */
 class LACATRE_Doc;
 
 /*!
@@ -53,7 +53,6 @@ class LACATRE_Doc;
  */
 class LACATRE_Plugin : public QObject
 {
-
 	Q_OBJECT
 
 	/************************************************** Constructors/Destructor */
@@ -65,10 +64,12 @@ public:
 	 * \param name Name of the plugin
 	 * \param d Description of the plugin
 	 */
-	LACATRE_Plugin(LACATRE_PluginPool::PluginType type, QString name, QString d = ""): QObject(NULL)
-		{
-			LACATRE_PluginPool::getInstance()->registerPlugin(this, type, name, d);
-		}
+	LACATRE_Plugin(LACATRE_PluginPool::PluginType type, QString name, QString d = "");
+
+  /*!
+   * Destructor
+   */
+  virtual ~LACATRE_Plugin();
 
 	/*********************************************************** Public methods */
 public:
@@ -77,7 +78,7 @@ public:
 	 *
 	 * \param doc Document of the newly created plugin
 	 */
-	virtual LACATRE_Plugin * Clone(LACATRE_Doc * doc) = 0;
+	virtual LACATRE_Plugin* Clone(LACATRE_Doc* doc) = 0;
 
 	/****************************************************************** Signals */
 signals:
@@ -86,16 +87,14 @@ signals:
 	 *
 	 * \param p Normally this is always "this" pointer.
 	 */
-	void modified(LACATRE_Plugin * p);
+	void modified(LACATRE_Plugin* p);
 
 	/************************************************************* Public slots */
 public slots:
 	/*!
 	 * Updates the document with the changes the plugin has made.
-	 *
-	 * \param doc The document to update.
 	 */
-	virtual void UpdateDocument(QDomDocument & doc) = 0;
+	virtual void UpdateDocument() = 0;
 
 	/*!
 	 * Fires an action of the plugin.
@@ -111,7 +110,7 @@ public slots:
 	 *
 	 * \return Returns a pointer to the widget plugin, if any.
 	 */
-	virtual QWidget * Action(QWidget * parentWidget, int action = LA4::DefaultAction, const char * parameter = NULL) = 0;
+	virtual QWidget* Action(QWidget* parentWidget, int action = LA4::DefaultAction, const char* parameter = NULL) = 0;
 
 	/******************************************************** Protected methods */
 protected:
@@ -120,14 +119,7 @@ protected:
 	 *
 	 * This constructor is protected!
 	 */
-	LACATRE_Plugin(const LACATRE_Plugin& p): QObject(), m_doc(NULL)
-		{
-			/* The copy does not retain the document */
-			/* Nothing else has to be done */
-			/* Note that the plugin is meant to be constructed only once with
-			 * the public constructor */
-			(void)p;
-		};
+  LACATRE_Plugin(const LACATRE_Plugin& aPlugin, LACATRE_Doc* aDocument);
 
 	/*!
 	 * Changes the document handled by the plugin.
@@ -143,7 +135,7 @@ protected:
 protected:
 	/*! Pointer to the version handled by the plugin */
 	/* This version may not be up to date if the plugin has not emitted modified() */
-	LACATRE_Doc * m_doc;
+	LACATRE_Doc* m_doc;
 
 };
 

@@ -19,7 +19,7 @@
  *                                                                            *
  ******************************************************************************
  * LA4: Tool for real-time systems design                                     *
- * Copyright (C) 2002-2007 by LA4 team <la4-dev@lists.berlios.de>             *
+ * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
 #ifndef LOAD_FILE_PLUGIN_H_
@@ -49,41 +49,72 @@
  */
 class LoadFilePlugin : public LACATRE_Plugin
 {
-	Q_OBJECT
+  Q_OBJECT
 
-		public:
-		LoadFilePlugin();
-		~LoadFilePlugin();
+  /************************************************** Constructors/Destructor */
+public:
+  /*!
+   * Default constructor
+   */
+  LoadFilePlugin();
 
-		virtual LACATRE_Plugin *Clone(LACATRE_Doc * d);
-		virtual void UpdateDocument(QDomDocument & d);
+  /*!
+   * Destructor
+   */
+  ~LoadFilePlugin();
 
+  /*********************************************************** Public methods */
+public:
+  /*!
+   * Clone the plugin
+   *
+   * @param aDocument     Document to which the plugin is to be associated to
+   */
+  virtual LACATRE_Plugin* Clone(LACATRE_Doc * aDocument);
 
-	public slots:
-		virtual QWidget * Action(QWidget *parentWidget,int action = LA4::Load, const char * parameter = NULL);
+  /*!
+   * Update the document content to the loaded content
+   */
+  virtual void UpdateDocument();
 
-//		signals:
-	/** Fired to indicate that
-		 we have modified the content
-		 of the document.
-		 \param p Normally it is always "this" pointer.
-		 */
-//		void modified(LACATRE_Plugin * p);
+  /************************************************************* Public slots */
+public slots:
+  /*!
+   * Perform action of the plugin
+   *
+   * LA4::Load action will, if the document has a filename associated to it load
+   * the given file, otherwise, it will ask the user to give the filename with
+   * an open file dialog.
+   */
+  virtual QWidget* Action(QWidget* aParentWidget, int aAction = LA4::Load, const char* aParameter = NULL);
 
-	protected:
-	/*!
-	 * Copy constructor
-	 *
-	 * \param plugin Plugin to copy
-	 *
-	 * \retval pointer A new load plugin copied from the plugin passed in parameter
-	 */
-		LoadFilePlugin(const LoadFilePlugin& plugin);
+  /******************************************************** Protected methods */
+protected:
+  /*!
+   * Copy constructor
+   *
+   * @param plugin Plugin to copy
+   *
+   * @retval pointer A new load plugin copied from the plugin passed in parameter
+   */
+  LoadFilePlugin(const LoadFilePlugin& plugin, LACATRE_Doc* aDocument);
 
-		int loadDoc(const QString &);
+  /*!
+   * Loads the document from the filename the plugin knows
+   */
+  int loadDoc();
 
-		QString fileName;
-		QDomDocument* localDoc;
+  /********************************************************** Private members */
+private:
+  /*! Filename of the last loaded file */
+  QString                  m_fileName;
+
+  /*! Local copy of the XML content of the document */
+  QDomDocument*            m_localDocument;
+
+  /************************************************* Private static constants */
+private:
+  static const char* XML_VERSION_TAG;            /// Tag containing file version
 
 };
 
