@@ -38,7 +38,7 @@ LAProject::LAProject() :
   m_document        (this),
   m_projectWindow   (NULL)
 {
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 }
 
 LAProject::~LAProject()
@@ -48,13 +48,13 @@ LAProject::~LAProject()
       delete m_projectWindow;
     }
 
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /*********************************************************** Public methods */
 bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   bool projectStarted = false;
 
@@ -85,11 +85,17 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
   else
     {
       /* Desactivate the load button if we didn't find a load plugin */
-      qWarning("LAProject::StartProject: WARNING: No load file plugin. Loading deactivated");
+      LALogger::Trace(LALogger::WARNING,
+                      LALogger::MAIN,
+                      "No load file plugin. Loading deactivated",
+                      LA_DEBUG_ARGS);
       startDialog.m_ui.PushButtonBrowze->setEnabled(false);
     }
 
-  LA_DEBUG("Initialisation of project");
+  LALogger::Trace(LALogger::DEBUG,
+                  LALogger::MAIN,
+                  "Initialisation of project",
+                  LA_DEBUG_ARGS);
 
   /* If we must load a file, ask it to the user */
   if (EXISTING_FILE == aMode && "" == aFilename)
@@ -129,13 +135,19 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
 					/* Load file */
 					if (startDialog.m_ui.RadioButtonOpen->isChecked())
 						{
-              LA_DEBUG_2("Loading a project from file %1", startDialog.m_ui.filenamePath->text());
+              LALogger::Trace(LALogger::DEBUG,
+                              LALogger::MAIN,
+                              QString("Loading a project from file %1").arg(startDialog.m_ui.filenamePath->text()),
+                              LA_DEBUG_ARGS);
 
 							m_document.setDocumentFileName(startDialog.m_ui.filenamePath->text());
 						}
 					else /* New project with selected platform */
 						{
-              LA_DEBUG_2("Starting an empty project for target %1", startDialog.m_ui.PlatformList->currentText());
+              LALogger::Trace(LALogger::DEBUG,
+                              LALogger::MAIN,
+                              QString("Starting an empty project for target %1").arg(startDialog.m_ui.PlatformList->currentText()),
+                              LA_DEBUG_ARGS);
 
 							m_document.setTargetPlatform(startDialog.m_ui.PlatformList->currentText());
 						}
@@ -149,8 +161,7 @@ bool LAProject::StartProject(LAProjectMode aMode, QString aFilename)
       projectStarted = false;
     }
 
-  LA_TRACE_END_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
   /* Clean and return result */
   return projectStarted;
 }

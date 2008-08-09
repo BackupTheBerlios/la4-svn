@@ -40,25 +40,25 @@ LACATRE_Doc::LACATRE_Doc(QObject * parent)
 	: QObject(parent)
 {
 	// createEmptyDocument();
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 }
 
 LACATRE_Doc::~LACATRE_Doc()
 {
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /*********************************************************** Public methods */
 void LACATRE_Doc::setDocumentFileName(const QString& aDocumentFilename)
 {
   m_documentFilename = aDocumentFilename;
-  LA_DEBUG_2("Setting new filename for document: %1", aDocumentFilename);
+  LALogger::Trace(LALogger::DEBUG, LALogger::MAIN, "Setting new filename for document: " + aDocumentFilename, LA_DEBUG_ARGS);
 }
 
 void LACATRE_Doc::setTargetPlatform(const QString& aPlatformName)
 {
   m_targetPlatform = aPlatformName;
-  LA_DEBUG_2("New platform for document is %1", aPlatformName);
+  LALogger::Trace(LALogger::DEBUG, LALogger::MAIN, "New platform for document is " + aPlatformName, LA_DEBUG_ARGS);
 }
 
 /************************************************************* Public slots */
@@ -77,6 +77,6 @@ void LACATRE_Doc::modified(LACATRE_Plugin * p)
 
   (void)p;
 
-  LA_DEBUG_2("Document modified by the plugin %p", QString().sprintf("%p", p));
+  LALogger::Trace(LALogger::DEBUG, LALogger::MAIN, "Document modified by the plugin " + QString().sprintf("%p", p), LA_DEBUG_ARGS);
 
 }

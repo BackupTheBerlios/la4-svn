@@ -36,7 +36,7 @@
 LAWindow::LAWindow(QWidget * parent)
     : QMainWindow(parent)
 {
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 
 	/* First, let Qt do its stuff */
 	m_ui.setupUi(this);
@@ -73,38 +73,37 @@ LAWindow::~LAWindow()
 			delete m_optionsDialog;
 		}
 
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /************************************************************* Public slots */
 void LAWindow::ResetPreferences()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
 	if (m_optionsDialog != NULL)
 		{
 			((LAPreferencesDialog *)m_optionsDialog)->ResetToDefault();
 		}
 
-  LA_TRACE_END_METHOD();
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }
 
 /******************************************************** Protected methods */
 int LAWindow::connectPlugins()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   int retval = 0;
 
-  LA_TRACE_END_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 	return retval;
 }
 
 /********************************************************** Protected slots */
 void LAWindow::editPreferences()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
 	/* Create dialog if necessary (this should no be the case but anyway) */
 	if (m_optionsDialog == NULL)
@@ -127,12 +126,12 @@ void LAWindow::editPreferences()
 			((LAPreferencesDialog *)m_optionsDialog)->show();
 		}
 
-  LA_TRACE_END_METHOD();
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }
 
 void LAWindow::helpAbout()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
 	/* Create dialog if necessary */
 	if (m_aboutDialog == NULL)
@@ -152,5 +151,5 @@ void LAWindow::helpAbout()
 			m_aboutDialog->show();
 		}
 
-  LA_TRACE_END_METHOD();
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }

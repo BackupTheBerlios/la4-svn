@@ -27,7 +27,6 @@
 /* Qt includes */
 #include <QDomDocument>
 #include <QFile>
-#include <QtDebug>
 
 /* LA4 includes */
 #include "LALogger.h"
@@ -44,7 +43,7 @@ LAObjectFactory::LAObjectFactory(LAPlatform* aPlatform):
   QObject          (aPlatform),
   m_factoryObject  (NULL)
 {
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 }
 
 LAObjectFactory::~LAObjectFactory()
@@ -55,7 +54,7 @@ LAObjectFactory::~LAObjectFactory()
       delete m_factoryObject;
     }
 
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /*********************************************************** Public methods */
@@ -73,7 +72,7 @@ int LAObjectFactory::getTypeID()
 int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
                                      const QString & aFactoryFilename)
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   /* Returned value */
   int result = -1;
@@ -91,7 +90,7 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
       if (true)
         {
 
-          LA_DEBUG_2("LAObjectFactory::LoadDescription: Loading factory from file %1", factoryFile.fileName());
+          LALogger::Trace(LALogger::DEBUG, LALogger::MAIN, "LAObjectFactory::LoadDescription: Loading factory from file " + factoryFile.fileName(), LA_DEBUG_ARGS);
 
           /* Looking for the node with description of the object */
           QDomElement rootNode = objectDocument.documentElement();
@@ -104,13 +103,17 @@ int LAObjectFactory::LoadDescription(const QString & aFactoryDirectory,
         }
       else
         {
-          qWarning() << "LAObjectFactory::LoadDescription:" << factoryFile.fileName() << "Check of factory description FAILED. Please check your XML definitions.";
+          LALogger::Trace(LALogger::ERROR,
+                          LALogger::MAIN,
+                          "LAObjectFactory::LoadDescription:"
+                            + factoryFile.fileName()
+                            + "Check of factory description FAILED. Please check your XML definitions.",
+                          LA_DEBUG_ARGS);
         }
 
      }
 
-  LA_TRACE_END_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
   /* Return the result */
   return result;
 }
@@ -126,7 +129,7 @@ LAObject* LAObjectFactory::NewInstance(double x, double y, double w , double h)
 
 LAObject * LAObjectFactory::NewInstance(const QDomElement& root)
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   double x = root.attribute("x").toDouble();
   double y = root.attribute("y").toDouble();
@@ -137,15 +140,14 @@ LAObject * LAObjectFactory::NewInstance(const QDomElement& root)
   LAObject * r = (LAObject *)(m_factoryObject->Clone(x, y, w, h));
 //     r->setObjectID(TakeNextID(ID));
 
-  LA_TRACE_END_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
   return r;
 }
 
 /**************************************************** Public static methods */
 int LAObjectFactory::TakeNextID(int aID)
 {
-  LA_TRACE_BEGIN_STATIC_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_STATIC_ARGS);
 
   if (aID < 0)
     {
@@ -162,7 +164,6 @@ int LAObjectFactory::TakeNextID(int aID)
       M_nextID++;
     }
 
-  LA_TRACE_END_STATIC_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_STATIC_ARGS);
   return aID;
 }

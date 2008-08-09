@@ -25,7 +25,6 @@
 #include "LALogger.h"
 
 /* Standard includes */
-#include <stdio.h>
 
 /* Qt includes */
 #include <QtDebug>
@@ -37,6 +36,108 @@
 /*  they should not be used at all                      */
 
 /*********************************************************** Public methods */
+void LALogger::Trace(int         aLevel,
+                     int         aCategory,
+                     QString     aMessage,
+                     void*       aInstance,
+                     const char* aFunction,
+                     const char* aFilename,
+                     int         aLineNumber)
+{
+  Log(aLevel,
+      aCategory,
+      QString().sprintf("%p +++ %s(): ", aInstance, aFunction) + aMessage,
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::Trace(int         aLevel,
+                     int         aCategory,
+                     QString     aMessage,
+                     const char* aFunction,
+                     const char* aFilename,
+                     int         aLineNumber)
+{
+  Log(aLevel,
+      aCategory,
+      QString().sprintf("STATIC +++ %s(): ", aFunction) + aMessage,
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceBeginMethod(void*       aInstance,
+                                const char* aFunction,
+                                const char* aFilename,
+                                int         aLineNumber)
+{
+  Log(LALogger::DEBUG,
+      LALogger::METHOD,
+      QString().sprintf("%p >>> %s()", aInstance, aFunction),
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceBeginMethod(const char* aFunction,
+                                const char* aFilename,
+                                int         aLineNumber)
+{
+  Log(LALogger::DEBUG,
+      LALogger::METHOD,
+      QString().sprintf("STATIC >>> %s()", aFunction),
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceConstructor(void*       aInstance,
+                                const char* aFunction,
+                                const char* aFilename,
+                                int         aLineNumber)
+{
+  (void)aFunction; // We do not use the constructor's name for now
+  Log(LALogger::DEBUG,
+      LALogger::MEMORY,
+      QString().sprintf("%p created", aInstance),
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceDestructor(void*       aInstance,
+                               const char* aFunction,
+                               const char* aFilename,
+                               int         aLineNumber)
+{
+  (void)aFunction; // We do not use the destructor's name for now
+  Log(LALogger::DEBUG,
+      LALogger::MEMORY,
+      QString().sprintf("%p deleted", aInstance),
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceEndMethod(void*       aInstance,
+                              const char* aFunction,
+                              const char* aFilename,
+                              int         aLineNumber)
+{
+  Log(LALogger::DEBUG,
+      LALogger::METHOD,
+      QString().sprintf("%p <<< %s()", aInstance, aFunction),
+      aFilename,
+      aLineNumber);
+}
+
+void LALogger::TraceEndMethod(const char* aFunction,
+                              const char* aFilename,
+                              int         aLineNumber)
+{
+  Log(LALogger::DEBUG,
+      LALogger::METHOD,
+      QString().sprintf("STATIC <<< %s()", aFunction),
+      aFilename,
+      aLineNumber);
+}
+
+/********************************************************** Private methods */
 void LALogger::Log(int     aLevel,
                    int     aCategory,
                    QString aMessage,
@@ -95,22 +196,11 @@ void LALogger::Log(int     aLevel,
 
   if (toLog)
     {
-      LogMessage(level, category, aMessage, aFilename, aLineNumber);
+      QString message = "[" + level + "]";
+      message += " ==" + category + "== ";
+      message += aMessage;
+      message += " (" + aFilename + ":" + QString().sprintf("%d", aLineNumber) + ")";
+      qDebug(message.toAscii());
     }
 
-}
-
-/********************************************************** Private methods */
-void LALogger::LogMessage(QString aLevel,
-                          QString aCategory,
-                          QString aMessage,
-                          QString aFilename,
-                          int     aLineNumber)
-{
-
-  QString message = "[" + aLevel + "]";
-  message += " ==" + aCategory + "== ";
-  message += aFilename + ":" + QString().sprintf("%04d", aLineNumber) + ": ";
-  message += aMessage;
-  qDebug(message.toAscii());
 }

@@ -29,25 +29,18 @@
 #include <QString>
 
 /* Macros */
-/* Memory debugging */
-#define LA_MEM_CREATE();  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p created", this), __FILE__, __LINE__);
-#define LA_MEM_DELETE();  LALogger::Log(LALogger::DEBUG, LALogger::MEMORY, QString().sprintf("%p deleted", this), __FILE__, __LINE__);
-
-/* Methods debugging */
-#define LA_TRACE_BEGIN_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p >>> %s()", this, __func__), __FILE__, __LINE__);
-#define LA_TRACE_END_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("%p <<< %s()", this, __func__), __FILE__, __LINE__);
-
-#define LA_TRACE_BEGIN_STATIC_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("STATIC   >>> %s()", __func__), __FILE__, __LINE__);
-#define LA_TRACE_END_STATIC_METHOD();  LALogger::Log(LALogger::DEBUG, LALogger::METHOD, QString().sprintf("STATIC   <<< %s()", __func__), __FILE__, __LINE__);
+/* Parameters */
+#define LA_DEBUG_ARGS this, __func__, __FILE__, __LINE__
+#define LA_DEBUG_STATIC_ARGS __func__, __FILE__, __LINE__
 
 /* Traces */
-#define LA_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a), __FILE__, __LINE__);
-#define LA_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b), __FILE__, __LINE__);
-#define LA_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b).arg(c), __FILE__, __LINE__);
+//#define LA_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a), __FILE__, __LINE__);
+//#define LA_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b), __FILE__, __LINE__);
+//#define LA_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("%p +++ %s(): %s", this, __func__, a).arg(b).arg(c), __FILE__, __LINE__);
 
-#define LA_STATIC_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a), __FILE__, __LINE__);
-#define LA_STATIC_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b), __FILE__, __LINE__);
-#define LA_STATIC_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b).arg(c), __FILE__, __LINE__);
+//#define LA_STATIC_DEBUG(a); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a), __FILE__, __LINE__);
+//#define LA_STATIC_DEBUG_2(a, b); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b), __FILE__, __LINE__);
+//#define LA_STATIC_DEBUG_3(a, b, c); LALogger::Log(LALogger::DEBUG, LALogger::MAIN, QString().sprintf("STATIC   +++ %s(): %s", __func__, a).arg(b).arg(c), __FILE__, __LINE__);
 
 /*!
  * This class is responsible of the logging of all messages of
@@ -95,13 +88,54 @@ private:
   /*********************************************************** Public methods */
 public:
   /*!
-   * Logs a message at the given level in the given category
+   * Trace a message in the given category with the given level
    */
-  static void Log(int aLevel, int aCategory, QString aMessage, QString aFilename, int aLineNumber);
+  static void Trace(int aLevel, int aCategory, QString aMessage, void* aInstance, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Trace a message in the given category with the given level (for static methods)
+   */
+  static void Trace(int aLevel, int aCategory, QString aMessage, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a method use
+   */
+  static void TraceBeginMethod(void* aInstance, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a method use (for static methods)
+   */
+  static void TraceBeginMethod(const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a constructor call
+   */
+  static void TraceConstructor(void* aInstance, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a destructor call
+   */
+  static void TraceDestructor(void* aInstance, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a method use
+   */
+  static void TraceEndMethod(void* aInstance, const char* aFunction, const char* aFilename, int aLineNumber);
+
+  /*!
+   * Log a method use (for static methods)
+   */
+  static void TraceEndMethod(const char* aFunction, const char* aFilename, int aLineNumber);
 
   /********************************************************** Private methods */
 private:
-  static void LogMessage(QString aLevel, QString aCategory, QString aMessage, QString aFilename, int aLineNumber);
+  /*!
+   * Log a message at the given level in the given category.
+   *
+   * This method only handles the level and category handling.
+   */
+  static void Log(int aLevel, int aCategory, QString aMessage, QString aFilename, int aLineNumber);
+
 };
 
 #endif /* LA_LOGGER_H_ */

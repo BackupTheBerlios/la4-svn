@@ -40,7 +40,7 @@
 LAStartDialog::LAStartDialog(QWidget * parent)
 	: QDialog(parent)
 {
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 
 	/* First, let Qt do its stuff */
 	m_ui.setupUi(this);
@@ -48,13 +48,13 @@ LAStartDialog::LAStartDialog(QWidget * parent)
 
 LAStartDialog::~LAStartDialog()
 {
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /************************************************************* Public slots */
 void LAStartDialog::openBrowseDialog()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   QString filename = QFileDialog::getOpenFileName(this, tr("LA4 - Get LA4 file"), "", tr("LA4 files (*.la4)"));
 
@@ -66,20 +66,25 @@ void LAStartDialog::openBrowseDialog()
       /* Select the correct check box */
       m_ui.RadioButtonOpen->setChecked(true);
 
-      LA_DEBUG_2("LAStartDialog: Browse - Filename was %1", filename);
+      LALogger::Trace(LALogger::DEBUG,
+                      LALogger::MAIN,
+                      "LAStartDialog: Browse - Filename was " + filename,
+                      LA_DEBUG_ARGS);
     }
   else
     {
-      LA_DEBUG("LAStartDialog: Browse - No file selected");
+      LALogger::Trace(LALogger::DEBUG,
+                      LALogger::MAIN,
+                      "LAStartDialog: Browse - No file selected",
+                      LA_DEBUG_ARGS);
     }
 
-  LA_TRACE_END_METHOD();
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }
 
 void LAStartDialog::show()
 {
-
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
 	/* Initialise fields */
 
@@ -89,7 +94,10 @@ void LAStartDialog::show()
   LAPlatform* platformPtr;
   foreach (platformPtr, *LAPlatformManager::getPlatforms())
     {
-      LA_DEBUG_2("LAStartDialog: Adding platform %1", platformPtr->getName());
+      LALogger::Trace(LALogger::DEBUG,
+                      LALogger::MAIN,
+                      "LAStartDialog: Adding platform " + platformPtr->getName(),
+                      LA_DEBUG_ARGS);
 
       m_ui.PlatformList->addItem(platformPtr->getName());
       if (-1 == firstItemIndex)
@@ -107,5 +115,5 @@ void LAStartDialog::show()
 	/* Show the dialog */
 	QDialog::show();
 
-  LA_TRACE_END_METHOD();
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }

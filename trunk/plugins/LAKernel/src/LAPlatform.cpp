@@ -42,7 +42,7 @@ LAPlatform::LAPlatform(const QString& aFactoriesDirectory):
   m_platformID("")
 {
   /* All factories of the zone are destroyed with the zone */
-  LA_MEM_CREATE();
+  LALogger::TraceConstructor(LA_DEBUG_ARGS);
 }
 
 LAPlatform::~LAPlatform()
@@ -53,7 +53,7 @@ LAPlatform::~LAPlatform()
     {
       delete aFactoryPtr;
     }
-  LA_MEM_DELETE();
+  LALogger::TraceDestructor(LA_DEBUG_ARGS);
 }
 
 /*********************************************************** Public methods */
@@ -69,7 +69,7 @@ const QString LAPlatform::getName() const
 
 int LAPlatform::Load()
 {
-  LA_TRACE_BEGIN_METHOD();
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
 
   /* Returned value */
   int numberOfFactories = 0;
@@ -105,7 +105,7 @@ int LAPlatform::Load()
       for (QStringList::Iterator factoryFilename = factoriesList.begin(); factoriesList.end() != factoryFilename; factoryFilename++)
         {
 
-          LA_DEBUG_2("Processing file %1", *factoryFilename);
+          LALogger::Trace(LALogger::DEBUG, LALogger::MAIN, "Processing file " + *factoryFilename, LA_DEBUG_ARGS);
 
           factory = new LAObjectFactory(this);
           /* Load factory */
@@ -133,12 +133,20 @@ int LAPlatform::Load()
       /* Otherwise, the dirName() method will return "" */
       m_name = factoriesDirectory.dirName();
 
-      LA_DEBUG_2("LAPlatform::Load: Platform %1 loaded", m_name);
+      LALogger::Trace(LALogger::DEBUG,
+                      LALogger::MAIN,
+                      "LAPlatform::Load: Platform "
+                        + m_name
+                        + " loaded",
+                      LA_DEBUG_ARGS);
     }
 
-  LA_DEBUG_3("LAPlatform::Load: %1 factories read from %2", numberOfFactories, m_dir);
+  LALogger::Trace(LALogger::DEBUG,
+                  LALogger::MAIN,
+                  QString("LAPlatform::Load: %1 factories read from ").arg(numberOfFactories)
+                    + m_dir,
+                  LA_DEBUG_ARGS);
 
-  LA_TRACE_END_METHOD();
-
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
   return numberOfFactories;
 }
