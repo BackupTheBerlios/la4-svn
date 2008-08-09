@@ -12,14 +12,23 @@
   <property name="windowTitle" >
    <string>LA4 - Real-time systems designer</string>
   </property>
-  <widget class="QWidget" name="centralwidget" />
+  <widget class="QWidget" name="centralwidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>800</width>
+     <height>547</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -27,6 +36,8 @@
      <string>&amp;File</string>
     </property>
     <addaction name="separator" />
+    <addaction name="separator" />
+    <addaction name="action_New" />
     <addaction name="separator" />
     <addaction name="action_Quit" />
    </widget>
@@ -46,7 +57,16 @@
    <addaction name="menu_Edit" />
    <addaction name="menu_Help" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>577</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
   <action name="action_Quit" >
    <property name="text" >
     <string>&amp;Quit</string>
@@ -65,24 +85,18 @@
     <string>&amp;Preferences</string>
    </property>
   </action>
+  <action name="action_New" >
+   <property name="text" >
+    <string>&amp;New</string>
+   </property>
+   <property name="statusTip" >
+    <string>Create a new LA4 document</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>action_Quit</sender>
-   <signal>triggered()</signal>
-   <receiver>LAWindowClass</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -29,6 +29,7 @@
 /* LA4 includes */
 #include "LALogger.h"
 #include "LAPreferencesDialog.h"
+#include "LAProject.h"
 #include "LASettings.h"
 #include "ui_LAAboutWindow.h"
 
@@ -50,6 +51,8 @@ LAWindow::LAWindow(QWidget * parent)
 	m_optionsDialog = new LAPreferencesDialog();
 
 	/* Connect menu actions */
+	connect(m_ui.action_New, SIGNAL(triggered()), this, SLOT(fileNew()));
+	connect(m_ui.action_Quit, SIGNAL(triggered()), qApp, SLOT(quit()));
 	connect(m_ui.action_Preferences, SIGNAL(triggered()), this, SLOT(editPreferences()));
 	connect(m_ui.action_About, SIGNAL(triggered()), this, SLOT(helpAbout()));
 
@@ -101,6 +104,22 @@ int LAWindow::connectPlugins()
 }
 
 /********************************************************** Protected slots */
+void LAWindow::fileNew()
+{
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
+
+  /* Start a new project */
+  LAProject::LAProjectMode mode = LAProject::NEW_PROJECT;
+  LAProject* theMainProject = new LAProject();
+  if (!theMainProject->StartProject(mode, ""))
+    {
+      /* Delete the project if the user cancelled the dialog */
+      delete theMainProject;
+    }
+
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
+}
+
 void LAWindow::editPreferences()
 {
   LALogger::TraceBeginMethod(LA_DEBUG_ARGS);

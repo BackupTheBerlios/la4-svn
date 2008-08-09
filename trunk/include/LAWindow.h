@@ -82,6 +82,11 @@ protected:
   /********************************************************** Protected slots */
 protected slots:
   /*!
+   * This slot performs the action of the File/New menu item
+   */
+  void fileNew();
+
+  /*!
    * This slot performs the action of the Edit/Preferences menu item
    */
   void editPreferences();
