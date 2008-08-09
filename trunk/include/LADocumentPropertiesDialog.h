@@ -1,5 +1,5 @@
 /******************************************************************************
- * LAWindow.h                                                                 *
+ * LADocumentPropertiesDialog.h                                               *
  ******************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -19,105 +19,56 @@
  *                                                                            *
  ******************************************************************************
  * LA4: Tool for real-time systems design                                     *
- * Copyright (C) 2002-2007 by LA4 team <la4-dev@lists.berlios.de>             *
+ * Copyright (C) 2002-2008 by LA4 team <la4-dev@lists.berlios.de>             *
  ******************************************************************************/
 
-#ifndef LA_WINDOW_H_
-#define LA_WINDOW_H_
+#ifndef LA_DOCUMENT_PROPERTIES_DIALOG_H_
+#define LA_DOCUMENT_PROPERTIES_DIALOG_H_
 
 /* Qt includes */
-#include <QtGui/QMainWindow>
+#include <QtGui/QDialog>
 
 /* LA4 includes */
-#include "ui_LAWindow.h"
+#include "ui_LADocumentPropertiesDialog.h"
 
 /* Forward declarations */
-class Ui_LAAboutDialog;
 
 /*!
- * A LAWindow is responsible of the displaying of one project only.
- *
- * It has a menu, handles it, handles key pressing and manages the views of
- * the document.
+ * This dialog displays a document properties editor
  */
-class LAWindow : public QMainWindow
+class LADocumentPropertiesDialog : public QDialog
 {
-    Q_OBJECT
-
-  /****************************************************** Friend declarations */
-public:
-  friend class LAProject;
+  Q_OBJECT
 
   /************************************************** Constructors/Destructor */
 public:
   /*!
    * Default constructor
    *
-   * \param project_ Project the window must handle.
+   * @param parent Parent of the window
    */
-  LAWindow(QWidget * parent = 0); //LAProject * project_);
+  LADocumentPropertiesDialog(QWidget * parent = 0);
 
   /*!
    * Default destructor
    */
-  virtual ~LAWindow();
+  ~LADocumentPropertiesDialog();
 
   /************************************************************* Public slots */
 public slots:
   /*!
-   * Reset preferences to default values
+   * This slot reinitialises the dialog and calls the parent show method. 
    */
-  void ResetPreferences();
+  void show();
 
   /****************************************************************** Signals */
 signals:
 
-  /******************************************************** Protected methods */
-protected:
-  /*!
-   * Connects all plugin to the window
-   */
-  int connectPlugins();
-
-  /********************************************************** Protected slots */
-protected slots:
-  /*!
-   * This slot performs the action of the File/New menu item
-   */
-  void fileNew();
-
-  /*!
-   * This slot performs the action of the Edit/Preferences menu item
-   */
-  void editPreferences();
-
-  /*!
-   * This slot performs the action of the Project/Properties menu item
-   */
-  void projectProperties();
-
-  /*!
-   * This slot performs the action of the Help/About menu item
-   */
-  void helpAbout();
-
-  /******************************************************** Protected members */
-protected:
-
   /********************************************************** Private members */
 private:
-  /*! About dialog (not null if it has been showed at least once) */
-  QDialog * m_aboutDialog;
-
-  /*! Ui instance for the about dialog setup */
-  Ui_LAAboutDialog * m_LAAboutDialog_Ui;
-
-  /*! Options dialog */
-  QDialog * m_optionsDialog;
-
   /*! Private UI actual window */
-  Ui::LAWindowClass m_ui;
+  Ui::LADocumentPropertiesDialog m_ui;
 
 };
 
-#endif /* LA_WINDOW_H_ */
+#endif /* LA_DOCUMENT_PROPERTIES_DIALOG_H_ */

@@ -27,6 +27,7 @@
 /* Qt includes */
 
 /* LA4 includes */
+#include "LADocumentPropertiesDialog.h"
 #include "LALogger.h"
 #include "LAPreferencesDialog.h"
 #include "LAProject.h"
@@ -52,8 +53,10 @@ LAWindow::LAWindow(QWidget * parent)
 
 	/* Connect menu actions */
 	connect(m_ui.action_New, SIGNAL(triggered()), this, SLOT(fileNew()));
+	connect(m_ui.action_Close, SIGNAL(triggered()), this, SLOT(close()));
 	connect(m_ui.action_Quit, SIGNAL(triggered()), qApp, SLOT(quit()));
 	connect(m_ui.action_Preferences, SIGNAL(triggered()), this, SLOT(editPreferences()));
+	connect(m_ui.action_Properties, SIGNAL(triggered()), this, SLOT(projectProperties()));
 	connect(m_ui.action_About, SIGNAL(triggered()), this, SLOT(helpAbout()));
 
   /* Connect other slots */
@@ -144,6 +147,18 @@ void LAWindow::editPreferences()
 			 */
 			((LAPreferencesDialog *)m_optionsDialog)->show();
 		}
+
+  LALogger::TraceEndMethod(LA_DEBUG_ARGS);
+}
+
+void LAWindow::projectProperties()
+{
+  LALogger::TraceBeginMethod(LA_DEBUG_ARGS);
+
+  /* Execute the property dialog (testing for now) */
+  LADocumentPropertiesDialog propertyDialog;
+  propertyDialog.show();
+  propertyDialog.exec();
 
   LALogger::TraceEndMethod(LA_DEBUG_ARGS);
 }

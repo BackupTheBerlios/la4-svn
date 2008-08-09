@@ -51,6 +51,7 @@ QT += core \
 # += is very important because configure can add its own sources.
 # User interface
 FORMS += ui/LAPreferencesWindow.ui \
+    ui/LADocumentPropertiesDialog.ui \
     ui/LAAboutWindow.ui \
     ui/LAWindow.ui \
     ui/LAStartDialog.ui
@@ -67,6 +68,7 @@ SOURCES += \
     plugins/LAKernel/src/LAObjectFactory.cpp \
     plugins/LAKernel/src/LAPlatform.cpp \
     plugins/LAKernel/src/LAPlatformManager.cpp \
+    src/LADocumentPropertiesDialog.cpp \
     src/LAPreferencesDialog.cpp \
     src/LASettings.cpp \
     src/LA4Namespace.cpp \
@@ -87,6 +89,7 @@ HEADERS = include/lacatre/LACATRE_PluginPool.h \
     plugins/LAKernel/include/LAObjectFactory.h \
     plugins/LAKernel/include/LAPlatform.h \
     plugins/LAKernel/include/LAPlatformManager.h \
+    include/LADocumentPropertiesDialog.h \
     include/LAPreferencesDialog.h \
     include/LASettings.h \
     include/LA4Namespace.h \

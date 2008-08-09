@@ -38,6 +38,7 @@
     <addaction name="separator" />
     <addaction name="separator" />
     <addaction name="action_New" />
+    <addaction name="action_Close" />
     <addaction name="separator" />
     <addaction name="action_Quit" />
    </widget>
@@ -53,8 +54,15 @@
     </property>
     <addaction name="action_Preferences" />
    </widget>
+   <widget class="QMenu" name="menu_Project" >
+    <property name="title" >
+     <string>&amp;Project</string>
+    </property>
+    <addaction name="action_Properties" />
+   </widget>
    <addaction name="menu_File" />
    <addaction name="menu_Edit" />
+   <addaction name="menu_Project" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" >
@@ -94,6 +102,22 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_Properties" >
+   <property name="text" >
+    <string>&amp;Properties...</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_Close" >
+   <property name="text" >
+    <string>&amp;Close</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>
